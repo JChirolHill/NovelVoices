@@ -1,0 +1,33 @@
+:root {
+    --primary-dark: #5D737E;
+    --highlight: #64B6AC;
+    --secondary: #C0FDFB;
+    --ternary: #DAFFEF;
+    --primary-light: #FCFFFD;
+}
+
+body {
+  font-family: "Raleway", sans-serif;
+  background-color: var(--primary-light);
+}
+
+.title-text {
+  font-family: "Cinzel";
+}
+
+.navbar-expand-lg {
+  justify-content: space-between;
+}
+
+.navbar-collapse {
+  flex-grow: 0;
+}
+
+.bg-primary-dark {
+  background-color: var(--primary-dark);
+}
+
+@font-face {
+    src: url("/fonts/cinzel/Cinzel-Regular.otf");
+    font-family: "Cinzel";
+}
