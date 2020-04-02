@@ -1,9 +1,16 @@
 :root {
     --primary-dark: #5D737E;
+    --secondary-dark: #8a9ea8;
     --highlight: #64B6AC;
+    --highlight-dark: #397972;
     --secondary: #C0FDFB;
     --ternary: #DAFFEF;
     --primary-light: #FCFFFD;
+}
+
+* {
+  margin: 0;
+  padding: 0;
 }
 
 body {
@@ -11,8 +18,30 @@ body {
   background-color: var(--primary-light);
 }
 
+p {
+  margin: 0;
+}
+
+a {
+  color: var(--highlight-dark);
+}
+
+a:hover {
+  color: var(--highlight);
+  text-decoration: none;
+}
+
 .title-text {
   font-family: "Cinzel";
+}
+
+.navbar {
+  text-shadow: 2px 2px 8px var(--primary-dark);
+  transition: all 0.5s;
+}
+
+.navbar-brand {
+  font-size: 2rem;
 }
 
 .navbar-expand-lg {
@@ -24,7 +53,20 @@ body {
 }
 
 .bg-primary-dark {
-  background-color: var(--primary-dark);
+  background-image: linear-gradient(var(--primary-dark), rgba(0, 0, 0, 0));
+}
+
+.btn-my-primary {
+  background-color: var(--highlight);
+  border-color: var(--highlight);
+  border-color: transparent;
+  color: var(--primary-light);
+}
+
+.btn-my-primary:hover {
+  background-color: var(--highlight-dark);
+  border-color: var(--highlight-dark);
+  color: var(--primary-light);
 }
 
 @font-face {

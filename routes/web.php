@@ -13,6 +13,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('landing');
-});
+Route::get('/', 'LandingController@index')->name('landing');
+
+Route::get('/home', function() {
+  return view('home');
+})->name('home');
+
+// Authentication handling
+Route::get('/login', 'LoginController@show')->name('login');
+Route::post('/login', 'LoginController@login');
+Route::get('/signup', 'RegistrationController@show')->name('signup');
+Route::post('/signup', 'RegistrationController@register');
+Route::get('/logout', 'LogoutController');
