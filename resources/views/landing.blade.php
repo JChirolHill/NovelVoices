@@ -21,7 +21,7 @@
     }
 
     .hero div {
-      width: 60%;
+      width: 80%;
       margin: 0 auto;
     }
 
@@ -35,6 +35,12 @@
     .hero h3 {
       padding-top: 1rem;
       border-top: var(--primary-light) solid 2px;
+    }
+
+    @media (min-width: 768px) {
+      .hero div {
+        width: 60%;
+      }
     }
   </style>
 @endsection
@@ -56,7 +62,7 @@
         <div class="banner-text-half">
           <div class="coverup coverup-right"></div>
           <div class="banner-text banner-text-right d-flex justify-content-center align-items-center">
-            <div class="mr-5 text-right">
+            <div class="ml-5 ml-md-0 mr-5 text-right">
               <h2 class="title-text">{{$banner['title']}}</h2>
               <p>{{$banner['blurb']}}</p>
             </div>
@@ -66,7 +72,7 @@
         <div class="banner-text-half">
           <div class="coverup coverup-left"></div>
           <div class="banner-text banner-text-left d-flex justify-content-center align-items-center">
-            <div class="ml-5 text-left">
+            <div class="ml-5 mr-5 mr-md-0 text-left">
               <h2 class="title-text">{{$banner['title']}}</h2>
               <p>{{$banner['blurb']}}</p>
             </div>

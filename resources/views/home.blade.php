@@ -149,7 +149,7 @@
                 <div class="banner-text-half">
                   <div class="coverup coverup-right"></div>
                   <div class="banner-text banner-text-right d-flex justify-content-center align-items-center">
-                    <div class="mr-5 text-right">
+                    <div class="ml-3 ml-md-0 mr-3 mr-md-5 text-right">
                       <h2 class="title-text">Story1</h2>
                       <p>My motivation for writing this story is to care about this dude who goes on a big hiking trip in the mountains and starts to learn the laws of nature along the way.</p>
                       {{-- <h2 class="title-text">{{$banner['title']}}</h2> --}}
@@ -165,7 +165,7 @@
                 <div class="banner-text-half">
                   <div class="coverup coverup-left"></div>
                   <div class="banner-text banner-text-left d-flex justify-content-center align-items-center">
-                    <div class="ml-5 text-left">
+                    <div class="ml-3 ml-md-5 mr-3 mr-md-0 text-left">
                       <h2 class="title-text">Story2</h2>
                       <p>Just some weird stuff going on in the neighborhood.</p>
                       {{-- <h2 class="title-text">{{$banner['title']}}</h2> --}}
