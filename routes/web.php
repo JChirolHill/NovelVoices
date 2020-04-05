@@ -25,3 +25,5 @@ Route::post('/login', 'LoginController@login');
 Route::get('/signup', 'RegistrationController@show')->name('signup');
 Route::post('/signup', 'RegistrationController@register');
 Route::get('/logout', 'LogoutController');
+
+Route::get('/info/{topic}', 'InfoController@index');

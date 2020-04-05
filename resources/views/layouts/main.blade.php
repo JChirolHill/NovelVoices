@@ -11,7 +11,7 @@
   <body>
     {{-- Navbar --}}
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary-dark">
-      <a class="navbar-brand title-text" href="/">Inner Voices</a>
+      <a class="navbar-brand title-text" href="/">Novel Voices</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -40,7 +40,7 @@
     </nav>
 
     @yield('mainContent')
-    
+
     <script
       src="https://code.jquery.com/jquery-3.4.1.min.js"
       integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="

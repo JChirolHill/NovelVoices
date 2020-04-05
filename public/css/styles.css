@@ -18,6 +18,10 @@ body {
   background-color: var(--primary-light);
 }
 
+h1 {
+  font-family: "Cinzel";
+}
+
 p {
   margin: 0;
 }
