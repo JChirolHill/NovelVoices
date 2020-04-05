@@ -17,12 +17,12 @@ class LandingController extends Controller
         array(
           'title' => 'Share',
           'image' => 'sleeping.jpg',
-          'blurb' => 'Create bedtime stories that your children will remember always.'
+          'blurb' => 'Create bedtime stories that your children will treasure always.'
         ),
         array(
           'title' => 'Venture',
           'image' => 'friendship.jpg',
-          'blurb' => 'Venture into the impossible.'
+          'blurb' => 'Redefine the impossible.'
         ),
         array(
           'title' => 'Connect',

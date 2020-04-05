@@ -1,6 +1,7 @@
 :root {
     --primary-dark: #5D737E;
     --secondary-dark: #8a9ea8;
+    --ternary-dark: #5d739f;
     --highlight: #64B6AC;
     --highlight-dark: #397972;
     --secondary: #C0FDFB;
@@ -39,6 +40,7 @@ a:hover {
   font-family: "Cinzel";
 }
 
+/* Navbar */
 .navbar {
   text-shadow: 2px 2px 8px var(--primary-dark);
   transition: all 0.5s;
@@ -56,9 +58,18 @@ a:hover {
   flex-grow: 0;
 }
 
-.bg-primary-dark {
-  background-image: linear-gradient(var(--primary-dark), rgba(0, 0, 0, 0));
+.navbar-dark .navbar-nav .nav-link {
+  color: var(--primary-light);
 }
+
+.navbar-dark .navbar-nav .nav-link:hover {
+  color: var(--ternary);
+}
+
+.bg-primary-dark {
+  background-image: linear-gradient(var(--ternary-dark), rgba(0, 0, 0, 0));
+}
+/* End navbar */
 
 .btn-my-primary {
   background-color: var(--highlight);
@@ -72,6 +83,71 @@ a:hover {
   border-color: var(--highlight-dark);
   color: var(--primary-light);
 }
+
+/* Banner */
+.banner {
+  background-color: var(--primary-dark);
+  position: relative;
+  color: white;
+  display: flex;
+  overflow: hidden;
+  height: 300px;
+  margin-top: 5px;
+}
+
+.banner img {
+  width: 100%;
+  display: block;
+}
+
+.banner .pic {
+  width: 70%;
+  transition: 0.5s all;
+}
+
+.banner .pic:hover {
+  transform: scale(1.05);
+}
+
+.banner .banner-text-half {
+  width: 40%;
+  position: relative;
+  z-index: 1;
+}
+
+.banner .banner-text {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.banner .banner-text-left {
+  left: 0;
+}
+
+.banner .banner-text-right {
+  right: 0;
+}
+
+.coverup {
+  width: 50%;
+  background-color: var(--primary-dark);
+  height: 350px;
+  position: absolute;
+  top: 0px;
+}
+
+.coverup-left {
+  left: 65%;
+  transform: rotate(-15deg);
+}
+
+.coverup-right {
+  right: 65%;
+  transform: rotate(15deg);
+}
+/* End banner */
 
 @font-face {
     src: url("/fonts/cinzel/Cinzel-Regular.otf");

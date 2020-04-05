@@ -15,9 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'LandingController@index')->name('landing');
 
-Route::get('/home', function() {
-  return view('home');
-})->name('home');
+Route::get('/home', 'HomeController@index')->name('home');
 
 // Authentication handling
 Route::get('/login', 'LoginController@show')->name('login');

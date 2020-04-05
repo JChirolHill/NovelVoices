@@ -9,69 +9,6 @@
       z-index: 3;
     }
 
-    .banner {
-      background-color: var(--primary-dark);
-      position: relative;
-      color: white;
-      display: flex;
-      overflow: hidden;
-      height: 300px;
-      margin-top: 5px;
-    }
-
-    .banner img {
-      width: 100%;
-      display: block;
-    }
-
-    .banner .pic {
-      width: 70%;
-      transition: 0.5s all;
-    }
-
-    .banner .pic:hover {
-      transform: scale(1.05);
-    }
-
-    .banner .banner-text-half {
-      width: 40%;
-      position: relative;
-      z-index: 1;
-    }
-
-    .banner .banner-text {
-      position: absolute;
-      top: 0;
-      height: 100%;
-      width: 100%;
-    }
-
-    .banner .banner-text-left {
-      left: 0;
-    }
-
-    .banner .banner-text-right {
-      right: 0;
-    }
-
-    .coverup {
-      width: 50%;
-      background-color: var(--primary-dark);
-      height: 350px;
-      position: absolute;
-      top: 0px;
-    }
-
-    .coverup-left {
-      left: 65%;
-      transform: rotate(-15deg);
-    }
-
-    .coverup-right {
-      right: 65%;
-      transform: rotate(15deg);
-    }
-
     .hero {
       background-image: url({{ asset('assets/ice.jpg') }});
       height: 500px;
