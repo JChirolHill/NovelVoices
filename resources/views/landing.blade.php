@@ -49,7 +49,7 @@
   <div class="hero d-flex align-items-center text-center">
     <div>
       <h1 class="title-text">Novel Voices</h1>
-      <h3>Character-driven story development<br />to bring your characters to life.</h3>
+      <h3>Character-driven story development<br />to bring your characters to life</h3>
     </div>
   </div>
 

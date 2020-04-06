@@ -26,6 +26,8 @@ class CreateCharactersTable extends Migration
             $table->string('backstory')->nullable();
             $table->string('strength')->nullable();
             $table->string('weakness')->nullable();
+            $table->string('color1');
+            $table->string('color2');
         });
     }
 
