@@ -13,9 +13,8 @@ class HomeController extends Controller
       // get all stories
       $stories = Story::with('theme')->where('user_id', '=', Auth::id())->get();
 
-      // get all characters for those stories
-      // ??? is there a better way to do this than in a for loop, some sort of sql advantage?
-      $characters = [];
+      // get all characters
+      $characters = Character::where('user_id', '=', Auth::id())->get();
 
       return view('home', [
         'stories' => $stories,

@@ -17,8 +17,10 @@ class CreateCharactersTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->boolean('dynamic');
+            $table->integer('user_id');
             $table->integer('hierarchy_id');
             $table->integer('archetype_id');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('hierarchy_id')->references('id')->on('hierarchies');
             $table->foreign('archetype_id')->references('id')->on('char_archetypes')->nullable();
             $table->string('motivation')->nullable();

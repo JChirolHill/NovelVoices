@@ -1,6 +1,6 @@
 @extends('layouts.full')
 
-@section('title', 'Home')
+@section('title', 'Novel Voices | Home')
 @section('header', 'Home')
 
 @section('styles')
@@ -18,14 +18,14 @@
       transition: 0.5s all;
     }
 
-    .character-list {
+    /* .character-list {
       overflow: scroll;
       width: 100%;
-    }
+    } */
 
-    .character-list .character-item:not(:first-child) {
+    /* .character-list .character-item:not(:first-child) {
       margin: 0 10px;
-    }
+    } */
 
     #new-character-item:hover, .character-item-circle:hover {
       transform: rotate(90deg);
@@ -36,7 +36,7 @@
       color: var(--primary-light);
     }
 
-    .character-item {
+    /* .character-item {
       min-width: 100px;
     }
 
@@ -45,7 +45,7 @@
       border-radius: 50%;
       margin-bottom: 10px;
       transition: 0.5s all;
-    }
+    } */
   </style>
 @endsection
 

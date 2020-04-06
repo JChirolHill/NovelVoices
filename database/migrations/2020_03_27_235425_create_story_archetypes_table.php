@@ -19,28 +19,15 @@ class CreateStoryArchetypesTable extends Migration
         });
 
         // Insert initial values
-        DB::table('hierarchies')->insert(
-            array(
-                'name' => 'Overcoming the Monster'
-            ),
-            array(
-                'name' => 'Rags to Riches'
-            ),
-            array(
-                'name' => 'The Quest'
-            ),
-            array(
-                'name' => 'Voyage and Return'
-            ),
-            array(
-                'name' => 'Comedy'
-            ),
-            array(
-                'name' => 'Tragedy'
-            ),
-            array(
-                'name' => 'Rebirth'
-            )
+        DB::table('story_archetypes')->insert([
+            [ 'name' => 'Overcoming the Monster' ],
+            [ 'name' => 'Rags to Riches' ],
+            [ 'name' => 'The Quest' ],
+            [ 'name' => 'Voyage and Return' ],
+            [ 'name' => 'Comedy' ],
+            [ 'name' => 'Tragedy' ],
+            [ 'name' => 'Rebirth' ]
+          ]
         );
     }
 
