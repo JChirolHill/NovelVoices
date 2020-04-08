@@ -17,6 +17,28 @@ class CreateThemesTable extends Migration
             $table->increments('id');
             $table->string('url');
         });
+
+        // Insert initial values
+        DB::table('themes')->insert([
+            [
+                'url' => 'beach.jpg'
+            ],
+            [
+                'url' => 'dream-catcher.jpg'
+            ],
+            [
+                'url' => 'friendship.jpg'
+            ],
+            [
+                'url' => 'ice.jpg'
+            ],
+            [
+                'url' => 'planet.jpg'
+            ],
+            [
+                'url' => 'sleeping.jpg'
+            ]
+        ]);
     }
 
     /**

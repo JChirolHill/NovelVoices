@@ -5,6 +5,12 @@
 
 @section('styles')
   <style media="screen">
+    /* Theme boxes */
+    .theme {
+      height: 200px;
+      overflow: hidden;
+    }
+
     .theme:hover img {
       opacity: 1;
       transform: scale(1.02);
@@ -13,7 +19,7 @@
 
     .theme img {
       width: 100%;
-      opacity: 0.5;
+      opacity: 0.3;
       transition: all 0.5s;
     }
 
@@ -22,6 +28,7 @@
       transform: scale(1.02);
       cursor: pointer;
     }
+    /* End theme boxes */
 
     /* SelectPure */
     .select-wrapper {
@@ -163,14 +170,28 @@
 
 @section('content')
   <form action="/story" method="post">
+    @csrf
     <div class="form-group">
-      <input class="form-control" type="text" name="title" placeholder="Title">
+      <input class="form-control" type="text" name="title" placeholder="Title"/>
+      @error('title')
+        <div class="text-danger">{{$message}}</div>
+      @enderror
     </div>
+
+    <div class="form-group">
+      <label for="descr">What motivates you to create this story?</label>
+      <input id="descr" class="form-control" type="text" name="descr"/>
+      @error('descr')
+        <div class="text-danger">{{$message}}</div>
+      @enderror
+    </div>
+
     <div class="form-group">
       <label for="characterSelect"><h4>Pick Characters for this Story</h4></label>
       @if(sizeof($characters) > 0)
         <p>You can always add more characters later</p>
       @endif
+      <input type="hidden" name="characters"/>
       <div id="characterSelect" class="d-flex character-list">
         {{-- <div class="character-item">
           <div class="character-item-circle" style="background-image: linear-gradient(to bottom right, var(--primary), var(--secondary))"></div>
@@ -207,28 +228,30 @@
     <div class="form-group">
       <label for="archetypeSelect"><h4>Select the Story Archetype</h4></label>
       <p>Not sure what to pick?  Learn more about <a href="/info/story_archetypes" target="_blank">story archetypes</a></p>
-      <span id="archetypeSelect"></span>
+      @error('archetype')
+        <div class="text-danger">{{$message}}</div>
+      @enderror
+      <select class="form-control" name="archetype">
+        @foreach($archetypes as $archetype)
+          <option value="{{$archetype->id}}">{{$archetype->name}}</option>
+        @endforeach
+      </select>
+      {{-- <span id="archetypeSelect"></span> --}}
     </div>
 
     <div class="form-group">
       <label><h4>Choose a Theme</h4></label>
       <p>A theme will set the mood for your story</p>
+      <input type="hidden" name="theme"/>
+      @error('theme')
+        <div class="text-danger">{{$message}}</div>
+      @enderror
       <div class="row">
-        <div class="col-12 col-sm-6 col-md-4 mb-3 theme" id="theme1">
-          <img src="{{ asset('assets/planet.jpg') }}" alt="Planet">
-        </div>
-        <div class="col-12 col-sm-6 col-md-4 mb-3 theme">
-          <img src="{{ asset('assets/planet.jpg') }}" alt="Planet">
-        </div>
-        <div class="col-12 col-sm-6 col-md-4 mb-3 theme">
-          <img src="{{ asset('assets/planet.jpg') }}" alt="Planet">
-        </div>
-        <div class="col-12 col-sm-6 col-md-4 mb-3 theme">
-          <img src="{{ asset('assets/planet.jpg') }}" alt="Planet">
-        </div>
-        <div class="col-12 col-sm-6 col-md-4 mb-3 theme">
-          <img src="{{ asset('assets/planet.jpg') }}" alt="Planet">
-        </div>
+        @foreach($themes as $theme)
+          <div class="col-12 col-sm-6 col-md-4 mb-3 theme" data-theme-id="{{$theme->id}}">
+            <img src="{{ asset("assets/{$theme->url}") }}" alt="{{$theme->url}}">
+          </div>
+        @endforeach
       </div>
     </div>
     <div class="form-group text-right">
@@ -241,27 +264,28 @@
   <script src="{{ asset('scripts/bundle.min.js') }}"></script>
   <script type="text/javascript">
     $(document).ready(() => {
-      // get the character and archetype data to populate page
-      let archetypeOptions = [];
-      getArchetypes().then(response => {
-        archetypeOptions = response.map(archetype => {
-          return {
-            label: archetype.name,
-            value: archetype.id.toString()
-          }
-        });
+      // let archetypeOptions = [];
+      // let archetypeSelect;
 
-        // set up select pure
-        var archetypeSelect = new SelectPure("#archetypeSelect", {
-          options: archetypeOptions,
-          multiple: true,
-          icon: "fa fa-times"
-        });
-      });
+      // get the character and archetype data to populate page
+      // getArchetypes().then(response => {
+      //   archetypeOptions = response.map(archetype => {
+      //     return {
+      //       label: archetype.name,
+      //       value: archetype.id.toString()
+      //     }
+      //   });
+      //
+      //   // set up select pure
+      //   archetypeSelect = new SelectPure("#archetypeSelect", {
+      //     options: archetypeOptions,
+      //     multiple: true,
+      //     icon: "fa fa-times"
+      //   });
+      // });
 
       // set on click for characters
       $('.character-overlay').on('click', function() {
-        // $(this).css('opacity', 1);
         $(this).toggleClass('visible');
       });
 
@@ -269,20 +293,24 @@
       $('.theme').on('click', function() {
 				$('.theme').removeClass('theme-selected');
 				$(this).addClass('theme-selected');
+        $('input[name=theme]').val($(this).data('themeId'));
 			});
 
       // whem form submits
       $('form').submit(function(event) {
-        event.preventDefault();
+        // get all characters selected
+        // TODO
 
         // get values in archetype dropdown
-        console.log(archetypeSelect.value());
+        // $('input[name=archetypes]').val(archetypeSelect.value().map((selection) => {
+        //   return Number(selection);
+        // }));
       })
     });
 
-    async function getArchetypes() {
-      let response = await fetch(`/story_archetypes`);
-      return response.json();
-    }
+    // async function getArchetypes() {
+    //   let response = await fetch(`/story_archetypes`);
+    //   return response.json();
+    // }
   </script>
 @endsection

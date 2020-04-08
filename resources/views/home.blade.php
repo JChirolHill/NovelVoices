@@ -18,15 +18,6 @@
       transition: 0.5s all;
     }
 
-    /* .character-list {
-      overflow: scroll;
-      width: 100%;
-    } */
-
-    /* .character-list .character-item:not(:first-child) {
-      margin: 0 10px;
-    } */
-
     #new-character-item:hover, .character-item-circle:hover {
       transform: rotate(90deg);
       cursor: pointer;
@@ -35,21 +26,14 @@
     #new-character-item a {
       color: var(--primary-light);
     }
-
-    /* .character-item {
-      min-width: 100px;
-    }
-
-    .character-item-circle {
-      height: 100px;
-      border-radius: 50%;
-      margin-bottom: 10px;
-      transition: 0.5s all;
-    } */
   </style>
 @endsection
 
 @section('content')
+  @if(session('success'))
+    <div class="alert alert-info">{{session('success')}}</div>
+  @endif
+
   <div class="row">
     {{-- Characters Listing Section --}}
     <div class="col-12 col-md">
@@ -153,11 +137,11 @@
           <a href="/story" class="btn btn-my-primary">Begin Your Story</a>
         </div>
         @forelse($stories as $index => $story)
-          <a href="/story/1">
+          <a href="/story/{{$story->id}}">
             <div class="banner">
               @if($index % 2 == 0)
                 <div class="pic">
-                  <img src="{{ asset("assets/{$story->theme}") }}" alt="{{$story->title}}"/>
+                  <img src="{{ asset("assets/{$story->theme->url}") }}" alt="{{$story->title}}"/>
                 </div>
                 <div class="banner-text-half">
                   <div class="coverup coverup-right"></div>
@@ -168,9 +152,7 @@
                     </div>
                   </div>
                 </div>
-            </a>
-            @else
-              <a href="/story/1">
+              @else
                 <div class="banner-text-half">
                   <div class="coverup coverup-left"></div>
                   <div class="banner-text banner-text-left d-flex justify-content-center align-items-center">
@@ -181,7 +163,7 @@
                   </div>
                 </div>
                 <div class="pic">
-                  <img src="{{ asset("assets/{$story->theme}") }}" alt="{{$story->title}}"/>
+                  <img src="{{ asset("assets/{$story->theme->url}") }}" alt="{{$story->title}}"/>
                 </div>
               @endif
             </div>
