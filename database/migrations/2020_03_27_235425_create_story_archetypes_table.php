@@ -38,6 +38,9 @@ class CreateStoryArchetypesTable extends Migration
      */
     public function down()
     {
+        // TODO: remove this line
+        Schema::dropIfExists('stories'); // so able to drop everything, else get foreign key constraint
+
         Schema::dropIfExists('story_archetypes');
     }
 }

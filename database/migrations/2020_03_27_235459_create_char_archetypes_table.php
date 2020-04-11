@@ -19,38 +19,18 @@ class CreateCharArchetypesTable extends Migration
         });
 
         // Insert initial values
-        DB::table('hierarchies')->insert(
-            array(
-                'name' => 'Hero'
-            ),
-            array(
-                'name' => 'Mentor'
-            ),
-            array(
-                'name' => 'Everyman'
-            ),
-            array(
-                'name' => 'Innocent'
-            ),
-            array(
-                'name' => 'Villain/Shadow'
-            ),
-            array(
-                'name' => 'Ally'
-            ),
-            array(
-                'name' => 'Herald'
-            ),
-            array(
-                'name' => 'Trickster'
-            ),
-            array(
-                'name' => 'Shapshifter'
-            ),
-            array(
-                'name' => 'Guardian'
-            )
-        );
+        DB::table('char_archetypes')->insert([
+          [ 'name' => 'Hero' ],
+          [ 'name' => 'Mentor' ],
+          [ 'name' => 'Everyman' ],
+          [ 'name' => 'Innocent' ],
+          [ 'name' => 'Villain/Shadow' ],
+          [ 'name' => 'Ally' ],
+          [ 'name' => 'Herald' ],
+          [ 'name' => 'Trickster' ],
+          [ 'name' => 'Shapshifter' ],
+          [ 'name' => 'Guardian' ]
+        ]);
     }
 
     /**

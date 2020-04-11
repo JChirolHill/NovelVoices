@@ -18,10 +18,11 @@ Route::get('/', 'LandingController@index')->name('landing');
 Route::middleware(['auth'])->group(function() {
   Route::get('/home', 'HomeController@index')->name('home');
 
-  Route::get('/character', 'CharacterController@index');
   Route::get('/story', 'StoryController@index');
   Route::post('/story', 'StoryController@store');
   Route::get('/story_archetypes', 'StoryController@archetypes');
+  Route::get('/character', 'CharacterController@index');
+  Route::post('/character', 'CharacterController@store');
 });
 
 // Authentication handling

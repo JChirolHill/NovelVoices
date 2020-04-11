@@ -30,110 +30,6 @@
     }
     /* End theme boxes */
 
-    /* SelectPure */
-    .select-wrapper {
-      margin: auto;
-      max-width: 600px;
-      width: calc(100% - 40px);
-    }
-
-    .select-pure__select {
-      align-items: center;
-      background: #f9f9f8;
-      border-radius: 4px;
-      border: 1px solid rgba(0, 0, 0, 0.15);
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-      box-sizing: border-box;
-      color: #363b3e;
-      cursor: pointer;
-      display: flex;
-      font-size: 16px;
-      font-weight: 500;
-      justify-content: left;
-      min-height: 44px;
-      padding: 5px 10px;
-      position: relative;
-      transition: 0.2s;
-      width: 100%;
-    }
-
-    .select-pure__options {
-      border-radius: 4px;
-      border: 1px solid rgba(0, 0, 0, 0.15);
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-      box-sizing: border-box;
-      color: #363b3e;
-      display: none;
-      left: 0;
-      max-height: 221px;
-      overflow-y: scroll;
-      position: absolute;
-      top: 50px;
-      width: 100%;
-      z-index: 5;
-    }
-
-    .select-pure__select--opened .select-pure__options {
-      display: block;
-    }
-
-    .select-pure__option {
-      background: #fff;
-      border-bottom: 1px solid #e4e4e4;
-      box-sizing: border-box;
-      height: 44px;
-      line-height: 25px;
-      padding: 10px;
-    }
-
-    .select-pure__option--selected {
-      color: #e4e4e4;
-      cursor: initial;
-      pointer-events: none;
-    }
-
-    .select-pure__option--hidden {
-      display: none;
-    }
-
-    .select-pure__selected-label {
-      background: #5e6264;
-      border-radius: 4px;
-      color: #fff;
-      cursor: initial;
-      display: inline-block;
-      margin: 5px 10px 5px 0;
-      padding: 3px 7px;
-    }
-
-    .select-pure__selected-label:last-of-type {
-      margin-right: 0;
-    }
-
-    .select-pure__selected-label i {
-      cursor: pointer;
-      display: inline-block;
-      margin-left: 7px;
-    }
-
-    .select-pure__selected-label i:hover {
-      color: #e4e4e4;
-    }
-
-    .select-pure__autocomplete {
-      background: #f9f9f8;
-      border-bottom: 1px solid #e4e4e4;
-      border-left: none;
-      border-right: none;
-      border-top: none;
-      box-sizing: border-box;
-      font-size: 16px;
-      outline: none;
-      padding: 10px;
-      width: 100%;
-    }
-    /* End SelectPure */
-
     .form-group label {
       margin-bottom: 0;
     }
@@ -231,7 +127,7 @@
       @error('archetype')
         <div class="text-danger">{{$message}}</div>
       @enderror
-      <select class="form-control" name="archetype">
+      <select id="archetypeSelect" class="form-control" name="archetype">
         @foreach($archetypes as $archetype)
           <option value="{{$archetype->id}}">{{$archetype->name}}</option>
         @endforeach
@@ -254,6 +150,7 @@
         @endforeach
       </div>
     </div>
+
     <div class="form-group text-right">
       <button class="btn btn-my-primary" type="submit">Save My Story</button>
     </div>
@@ -261,7 +158,7 @@
 @endsection
 
 @section('scripts')
-  <script src="{{ asset('scripts/bundle.min.js') }}"></script>
+  {{-- <script src="{{ asset('scripts/bundle.min.js') }}"></script> --}}
   <script type="text/javascript">
     $(document).ready(() => {
       // let archetypeOptions = [];

@@ -23,8 +23,8 @@ class CreateCharactersTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('hierarchy_id')->references('id')->on('hierarchies');
             $table->foreign('archetype_id')->references('id')->on('char_archetypes')->nullable();
-            $table->string('motivation')->nullable();
-            $table->string('impression')->nullable();
+            $table->string('motivation');
+            $table->string('impression');
             $table->string('backstory')->nullable();
             $table->string('strength')->nullable();
             $table->string('weakness')->nullable();

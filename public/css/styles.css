@@ -74,13 +74,24 @@ a:hover {
 .btn-my-primary {
   background-color: var(--highlight);
   border-color: var(--highlight);
-  border-color: transparent;
   color: var(--primary-light);
 }
 
 .btn-my-primary:hover {
   background-color: var(--highlight-dark);
   border-color: var(--highlight-dark);
+  color: var(--primary-light);
+}
+
+.btn-my-primary-dark {
+  background-color: var(--highlight-dark);
+  border-color: var(--highlight-dark);
+  color: var(--primary-light);
+}
+
+.btn-my-primary-dark:hover {
+  background-color: var(--highlight);
+  border-color: var(--highlight);
   color: var(--primary-light);
 }
 

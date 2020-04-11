@@ -32,7 +32,7 @@ class StoryController extends Controller
     public function store(Request $request) {
       // validation
       $request->validate([
-        'title' => ['required',
+        'title' => ['required', 'max:50',
           Rule::unique('stories')->where(function ($query) {
             return $query->where('user_id', Auth::id());
           })
