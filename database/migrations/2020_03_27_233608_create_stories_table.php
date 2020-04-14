@@ -23,7 +23,6 @@ class CreateStoriesTable extends Migration
             $table->foreign('theme_id')->references('id')->on('themes')->nullable();
             $table->foreign('archetype_id')->references('id')->on('story_archetypes')->nullable();
             $table->string('descr');
-            $table->timestamps();
         });
     }
 

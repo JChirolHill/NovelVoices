@@ -1,7 +1,7 @@
 @extends('layouts.full')
 
 @section('title', 'Novel Voices | Craft Story')
-@section('header', 'Craft Your Story')
+@section('header', isset($story) ? 'Edit Your Story' : 'Craft Your Story')
 
 @section('styles')
   <style media="screen">
@@ -61,14 +61,18 @@
       opacity: 1;
       transform: rotate(0deg);
     }
+
+    input[type=checkbox] {
+      display: none;
+    }
   </style>
 @endsection
 
 @section('content')
-  <form action="/story" method="post">
+  <form action="{{isset($story) ? "/story/{$story->id}/edit" : '/story'}}" method="post">
     @csrf
     <div class="form-group">
-      <input class="form-control" type="text" name="title" placeholder="Title"/>
+      <input class="form-control" type="text" name="title" placeholder="Title" value="{{old('title') ? old('title') : (isset($story) ? $story->title : '')}}"/>
       @error('title')
         <div class="text-danger">{{$message}}</div>
       @enderror
@@ -76,7 +80,7 @@
 
     <div class="form-group">
       <label for="descr">What motivates you to create this story?</label>
-      <input id="descr" class="form-control" type="text" name="descr"/>
+      <input id="descr" class="form-control" type="text" name="descr" value="{{old('descr') ? old('descr') : (isset($story) ? $story->descr : '')}}"/>
       @error('descr')
         <div class="text-danger">{{$message}}</div>
       @enderror
@@ -87,33 +91,16 @@
       @if(sizeof($characters) > 0)
         <p>You can always add more characters later</p>
       @endif
-      <input type="hidden" name="characters"/>
+      @error('characters.*')
+        <div class="text-danger">{{$message}}</div>
+      @enderror
       <div id="characterSelect" class="d-flex character-list">
-        {{-- <div class="character-item">
-          <div class="character-item-circle" style="background-image: linear-gradient(to bottom right, var(--primary), var(--secondary))"></div>
-          <div class="text-center">Lia</div>
-          <div class="character-overlay d-flex justify-content-center align-items-center"><i class="fas fa-check"></i></div>
-        </div>
-        <div class="character-item">
-          <div class="character-item-circle" style="background-image: linear-gradient(to bottom left, var(--secondary), var(--ternary))"></div>
-          <div class="text-center">Aren</div>
-          <div class="character-overlay d-flex justify-content-center align-items-center"><i class="fas fa-check"></i></div>
-        </div>
-        <div class="character-item">
-          <div class="character-item-circle" style="background-image: linear-gradient(to bottom right, var(--primary-dark), var(--secondary))"></div>
-          <div class="text-center">Evelyn</div>
-          <div class="character-overlay d-flex justify-content-center align-items-center"><i class="fas fa-check"></i></div>
-        </div>
-        <div class="character-item">
-          <div class="character-item-circle" style="background-image: linear-gradient(to bottom left, var(--primary-light), var(--ternary))"></div>
-          <div class="text-center">Rowan</div>
-          <div class="character-overlay d-flex justify-content-center align-items-center"><i class="fas fa-check"></i></div>
-        </div> --}}
         @forelse($characters as $character)
           <div class="character-item">
             <div class="character-item-circle" style="background-image: linear-gradient(to bottom right, {{$character->color1}}, {{$character->color2}})"></div>
             <div class="text-center">{{$character->name}}</div>
             <div class="character-overlay d-flex justify-content-center align-items-center" data-id="{{$character->id}}"><i class="fas fa-check"></i></div>
+            <input type="checkbox" name="characters[]" value="{{$character->id}}"/>
           </div>
         @empty
           You do not have any characters yet.  Craft them once you save this page.
@@ -129,7 +116,9 @@
       @enderror
       <select id="archetypeSelect" class="form-control" name="archetype">
         @foreach($archetypes as $archetype)
-          <option value="{{$archetype->id}}">{{$archetype->name}}</option>
+          <option value="{{$archetype->id}}" {{old('archetype') == $archetype->id ? 'selected' : (isset($story) && $story->archetype_id == $archetype->id ? 'selected' : '')}}>
+            {{$archetype->name}}
+          </option>
         @endforeach
       </select>
       {{-- <span id="archetypeSelect"></span> --}}
@@ -138,13 +127,13 @@
     <div class="form-group">
       <label><h4>Choose a Theme</h4></label>
       <p>A theme will set the mood for your story</p>
-      <input type="hidden" name="theme"/>
+      <input type="hidden" name="theme" value="{{old('theme') ? old('theme') : (isset($story) ? $story->theme_id : '')}}"/>
       @error('theme')
         <div class="text-danger">{{$message}}</div>
       @enderror
       <div class="row">
         @foreach($themes as $theme)
-          <div class="col-12 col-sm-6 col-md-4 mb-3 theme" data-theme-id="{{$theme->id}}">
+          <div class="col-12 col-sm-6 col-md-4 mb-3 theme {{old('theme') == $theme->id ? 'theme-selected' : (isset($story) && $story->theme_id == $theme->id ? 'theme-selected' : '')}}" data-theme-id="{{$theme->id}}">
             <img src="{{ asset("assets/{$theme->url}") }}" alt="{{$theme->url}}">
           </div>
         @endforeach
@@ -181,9 +170,27 @@
       //   });
       // });
 
+      @if(old('characters'))
+        // preselect all characters from the last submission
+        let $this;
+        @foreach(old('characters') as $oldCharacterId)
+          $this = $('.character-overlay[data-id={{$oldCharacterId}}]');
+          $this.addClass('visible');
+          $this.next().prop('checked', true);
+        @endforeach
+      @elseif($story->characters)
+        let $this;
+        @foreach($story->characters as $character)
+          $this = $('.character-overlay[data-id={{$character->id}}]');
+          $this.addClass('visible');
+          $this.next().prop('checked', true);
+        @endforeach
+      @endif
+
       // set on click for characters
       $('.character-overlay').on('click', function() {
         $(this).toggleClass('visible');
+        $(this).next().click();
       });
 
       // set on click for themes
@@ -194,15 +201,25 @@
 			});
 
       // whem form submits
-      $('form').submit(function(event) {
+      // $('form').submit(function(event) {
         // get all characters selected
-        // TODO
+        // let charIds = [];
+        // $('.character-item .visible').each(function(index) {
+        //   console.log(index);
+        //   $('#characterInput').val()[index] = $(this).data('id')
+        //   // charIds.push($(this).data('id'));
+        // });
+        // $('#characterInput').val(charIds);
+        // console.log(charIds);
+        // console.log($('#characterInput'));
+        // console.log($('#characterInput').val());
+        // event.preventDefault();
 
         // get values in archetype dropdown
         // $('input[name=archetypes]').val(archetypeSelect.value().map((selection) => {
         //   return Number(selection);
         // }));
-      })
+      // })
     });
 
     // async function getArchetypes() {

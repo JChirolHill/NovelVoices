@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Character extends Model
 {
+    public $timestamps = false;
+
     public function archetype() {
       return $this->belongsTo('App\CharArchetype');
     }

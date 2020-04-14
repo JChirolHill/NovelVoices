@@ -20,9 +20,16 @@ Route::middleware(['auth'])->group(function() {
 
   Route::get('/story', 'StoryController@index');
   Route::post('/story', 'StoryController@store');
+  Route::get('/story/{story}', 'StoryController@view');
+  Route::get('/story/{story}/edit', 'StoryController@edit');
+  Route::post('/story/{story}/edit', 'StoryController@update');
   Route::get('/story_archetypes', 'StoryController@archetypes');
+
   Route::get('/character', 'CharacterController@index');
   Route::post('/character', 'CharacterController@store');
+  Route::get('/character/{character}', 'CharacterController@view');
+
+  Route::get('/probe', 'ProbeController@index');
 });
 
 // Authentication handling

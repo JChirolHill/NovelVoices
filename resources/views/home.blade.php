@@ -36,7 +36,7 @@
 
   <div class="row">
     {{-- Characters Listing Section --}}
-    <div class="col-12 col-md">
+    <div class="col-12 col-md-8">
       <h3 class="mt-3 title-text">Your Characters</h3>
       {{-- List of characters for this user --}}
       <div class="d-flex character-list">
@@ -57,67 +57,19 @@
             <h5>Give life to a character by pressing the button on the left or creating a new story below.</h5>
           </div>
         @endforelse
-          {{-- <div class="character-item">
-            <a href="/character/1">
-            <div class="character-item-circle" style="background-image: linear-gradient(to bottom right, var(--primary), var(--secondary))"></div>
-            <div class="text-center">Lia</div>
-            </a>
-          </div>
-          <div class="character-item">
-            <a href="/character/1">
-              <div class="character-item-circle" style="background-image: linear-gradient(to bottom left, var(--secondary), var(--ternary))"></div>
-              <div class="text-center">Aren</div>
-            </a>
-          </div>
-          <div class="character-item">
-            <a href="/character/1">
-              <div class="character-item-circle" style="background-image: linear-gradient(to bottom right, var(--primary-dark), var(--secondary))"></div>
-              <div class="text-center">Evelyn</div>
-            </a>
-          </div>
-          <div class="character-item">
-            <a href="/character/1">
-              <div class="character-item-circle" style="background-image: linear-gradient(to bottom left, var(--primary-light), var(--ternary))"></div>
-              <div class="text-center">Rowan</div>
-            </a>
-          </div>
-          <div class="character-item">
-            <a href="/character/1">
-              <div class="character-item-circle" style="background-image: linear-gradient(to bottom right, var(--primary-dark), var(--ternary))"></div>
-              <div class="text-center">Uber Really Long Name</div>
-            </a>
-          </div>
-          <div class="character-item">
-            <a href="/character/1">
-              <div class="character-item-circle" style="background-image: linear-gradient(to bottom right, var(--primary-dark), var(--ternary))"></div>
-              <div class="text-center">Uber Really Long Name</div>
-            </a>
-          </div>
-          <div class="character-item">
-            <a href="/character/1">
-              <div class="character-item-circle" style="background-image: linear-gradient(to bottom right, var(--primary-dark), var(--ternary))"></div>
-              <div class="text-center">Uber Really Long Name</div>
-            </a>
-          </div>
-          <div class="character-item">
-            <a href="/character/1">
-              <div class="character-item-circle" style="background-image: linear-gradient(to bottom right, var(--primary-dark), var(--ternary))"></div>
-              <div class="text-center">Uber Really Long Name</div>
-            </a>
-          </div> --}}
       </div>
     </div>
 
     {{-- Writer's Block Section --}}
     @if(sizeof($stories) > 0)
       <div class="col-12 col-md-4">
-        <form class="text-center outline" action="index.html" method="post">
+        <form class="text-center outline" action="/probe" method="get">
           <h3 class="title-text">Writer's Block?</h3>
           <div class="form-group">
             <label for="storySelect">Select your story:</label>
-            <select id="storySelect" class="form-control">
+            <select id="storySelect" class="form-control" name="story">
               @foreach($stories as $story)
-                <option value="{{$story->id}}">{{$story->Title}}</option>
+                <option value="{{$story->id}}">{{$story->title}}</option>
               @endforeach
             </select>
           </div>

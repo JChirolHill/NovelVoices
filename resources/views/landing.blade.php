@@ -3,6 +3,7 @@
 
 @section('styles')
   <style media="screen">
+    /* make navbar stick to top */
     .navbar {
       position: fixed;
       width: 100%;
@@ -62,7 +63,7 @@
         <div class="banner-text-half">
           <div class="coverup coverup-right"></div>
           <div class="banner-text banner-text-right d-flex justify-content-center align-items-center">
-            <div class="ml-5 ml-md-0 mr-5 text-right">
+            <div class="ml-5 ml-md-0 mr-5 text-center text-md-right">
               <h2 class="title-text">{{$banner['title']}}</h2>
               <p>{{$banner['blurb']}}</p>
             </div>
@@ -72,7 +73,7 @@
         <div class="banner-text-half">
           <div class="coverup coverup-left"></div>
           <div class="banner-text banner-text-left d-flex justify-content-center align-items-center">
-            <div class="ml-5 mr-5 mr-md-0 text-left">
+            <div class="ml-5 mr-5 mr-md-0 text-center text-md-left">
               <h2 class="title-text">{{$banner['title']}}</h2>
               <p>{{$banner['blurb']}}</p>
             </div>

@@ -1,148 +1,100 @@
 @extends('layouts.full')
 
-@section('title', 'Novel Voices | Animate Character')
-@section('header', 'Give Your Character its Voice')
+@section('title', 'Novel Voices | View Character')
+@section('header', "Meet $character->name")
 
 @section('styles')
   <style media="screen">
-    input[type=radio] {
-      display: none;
-    }
-
-    .radioLabel {
-      border-radius: 10px;
-      padding: 5px 10px;
-      margin: 5px 10px 5px 0;
-      background-color: var(--highlight-dark);
-      color: white;
-      transition: all 0.5s;
-    }
-
-    .radioLabel:hover {
-      background-color: var(--highlight);
-      cursor: pointer;
-    }
-
-    .selected {
-      background-color: var(--highlight);
-      color: white;
-    }
-
-    /* SelectPure */
-    /* .select-wrapper {
-      margin: auto;
-      max-width: 600px;
-      width: calc(100% - 40px);
-    }
-
-    .select-pure__select {
-      align-items: center;
-      background: #f9f9f8;
-      border-radius: 4px;
-      border: 1px solid rgba(0, 0, 0, 0.15);
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-      box-sizing: border-box;
-      color: #363b3e;
-      cursor: pointer;
-      display: flex;
-      font-size: 16px;
-      font-weight: 500;
-      justify-content: left;
-      min-height: 44px;
-      padding: 5px 10px;
-      position: relative;
-      transition: 0.2s;
-      width: 100%;
-    }
-
-    .select-pure__options {
-      border-radius: 4px;
-      border: 1px solid rgba(0, 0, 0, 0.15);
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-      box-sizing: border-box;
-      color: #363b3e;
-      display: none;
-      left: 0;
-      max-height: 221px;
-      overflow-y: scroll;
-      position: absolute;
-      top: 50px;
-      width: 100%;
-      z-index: 5;
-    }
-
-    .select-pure__select--opened .select-pure__options {
-      display: block;
-    }
-
-    .select-pure__option {
-      background: #fff;
-      border-bottom: 1px solid #e4e4e4;
-      box-sizing: border-box;
-      height: 44px;
-      line-height: 25px;
-      padding: 10px;
-    }
-
-    .select-pure__option--selected {
-      color: #e4e4e4;
-      cursor: initial;
-      pointer-events: none;
-    }
-
-    .select-pure__option--hidden {
-      display: none;
-    }
-
-    .select-pure__selected-label {
-      background: #5e6264;
-      border-radius: 4px;
-      color: #fff;
-      cursor: initial;
-      display: inline-block;
-      margin: 5px 10px 5px 0;
-      padding: 3px 7px;
-    }
-
-    .select-pure__selected-label:last-of-type {
-      margin-right: 0;
-    }
-
-    .select-pure__selected-label i {
-      cursor: pointer;
-      display: inline-block;
-      margin-left: 7px;
-    }
-
-    .select-pure__selected-label i:hover {
-      color: #e4e4e4;
-    }
-
-    .select-pure__autocomplete {
-      background: #f9f9f8;
-      border-bottom: 1px solid #e4e4e4;
-      border-left: none;
-      border-right: none;
-      border-top: none;
-      box-sizing: border-box;
-      font-size: 16px;
-      outline: none;
-      padding: 10px;
-      width: 100%;
-    } */
-    /* End SelectPure */
-
-    .list-group-item:hover {
-      text-decoration: line-through;
-      font-style: italic;
-      cursor: pointer;
+    .list-group-item h4 i {
+      opacity: 0;
+      transition: all 0.25s;
       color: var(--secondary-dark);
+    }
+
+    .list-group-item h4 i:hover {
+      cursor: pointer;
+    }
+
+    .list-group-item h4:hover i {
+      opacity: 1;
     }
   </style>
 @endsection
 
 @section('content')
-  <form action="/character" method="post">
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">
+      <h4>My Character Archetype: {{$character->archetype->name}} <i class="fas fa-edit"></i></h4>
+      Read more about <a href="/info/character_archetypes" target="_blank">character archetypes.</a>
+    </li>
+    <li class="list-group-item">
+      <h4>I am a {{$character->dynamic ? 'Dynamic' : 'Static'}} character <i class="fas fa-edit"></i></h4>
+      Read more about types of <a href="/info/dynamic_static" target="_blank">character development</a>.
+    </li>
+    <li class="list-group-item">
+      <h4>I am a {{$character->hierarchy->name}} character <i class="fas fa-edit"></i></h4>
+      Read more about <a href="/info/hierarchies" target="_blank">character hierarchies</a>.
+    </li>
+    <li class="list-group-item">
+      <div class="row">
+        <div class="card col-12 col-md mx-2 mb-2 mb-md-0">
+          <div class="card-body">
+            <h4 class="card-title">Motivation <i class="fas fa-edit"></i></h4>
+            <h6 class="card-subtitle mb-2 text-muted">What I want and what drives me</h6>
+            <p class="card-text">{{$character->motivation}}</p>
+          </div>
+        </div>
+        <div class="card col-12 col-md mx-2 mb-2 mb-md-0">
+          <div class="card-body">
+            <h4 class="card-title">First Impression <i class="fas fa-edit"></i></h4>
+            <h6 class="card-subtitle mb-2 text-muted">My first impression to other characters</h6>
+            <p class="card-text">{{$character->impression}}</p>
+          </div>
+        </div>
+        @if($character->backstory)
+          <div class="card col-12 col-md mx-2 mb-2 mb-md-0">
+            <div class="card-body">
+              <h4 class="card-title">Backstory <i class="fas fa-edit"></i></h4>
+              <h6 class="card-subtitle mb-2 text-muted">The past I carry with me</h6>
+              <p class="card-text">{{$character->backstory}}</p>
+            </div>
+          </div>
+        @endif
+      </div>
+
+      <div class="row mt-2">
+        <div class="card col-12 col-md mx-2 mb-2 mb-md-0">
+          <div class="card-body">
+            <h4 class="card-title">My Strengths <i class="fas fa-edit"></i></h4>
+            @if($strengths)
+              <ul class="list-group list-group-flush">
+                @foreach($strengths as $strength)
+                  <li class="list-group-item">{{$strength}}</li>
+                @endforeach
+              </ul>
+            @else
+              <p class="card-text">This character has no strengths</p>
+            @endif
+          </div>
+        </div>
+        <div class="card col-12 col-md mx-2 mb-2 mb-md-0">
+          <div class="card-body">
+            <h4 class="card-title">My Weaknesses <i class="fas fa-edit"></i></h4>
+            @if($weaknesses)
+              <ul class="list-group list-group-flush">
+                @foreach($weaknesses as $weakness)
+                  <li class="list-group-item">{{$weakness}}</li>
+                @endforeach
+              </ul>
+            @else
+              <p class="card-text">This character has no weaknesses</p>
+            @endif
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>
+  {{-- <form action="/character" method="post">
     @csrf
     <div class="form-group">
       <input class="form-control" type="text" name="name" placeholder="Give me a name" value="{{old('name')}}"/>
@@ -164,7 +116,6 @@
           </option>
         @endforeach
       </select>
-      {{-- <span id="archetypeSelect"></span> --}}
     </div>
 
     <div class="form-group">
@@ -225,7 +176,7 @@
           <input id="strengths" type="text" class="form-control input-list" name="strengths" placeholder="Grit, loyal, funny, fearless, smart..."/>
           <button type="button" class="btn btn-my-primary-dark btn-list">Add Strength</button>
         </div>
-        <ul id="strengthsList" class="list-group list-group-flush"></ul>
+        <ul></ul>
       </div>
 
       <div class="form-group col-12 col-md-6">
@@ -234,18 +185,18 @@
           <input id="weaknesses" type="text" class="form-control input-list" name="weaknesses" placeholder="Arrogant, vengeful, lazy, careless..."/>
           <button type="button" class="btn btn-my-primary-dark btn-list">Add Flaw</button>
         </div>
-        <ul id="weaknessesList" class="list-group list-group-flush"></ul>
+        <ul></ul>
       </div>
     </div>
 
     <div class="form-group text-right">
       <button class="btn btn-my-primary" type="submit">Save My Character</button>
     </div>
-  </form>
+  </form> --}}
 @endsection
 
 @section('scripts')
-  <script src="{{ asset('scripts/bundle.min.js') }}"></script>
+  {{-- <script src="{{ asset('scripts/bundle.min.js') }}"></script>
   <script type="text/javascript">
     $(document).ready(function() {
       updateBackstoryDisplay();
@@ -259,70 +210,10 @@
         addListItem($list, userInput);
       });
 
-      // add strength/weakness - on enter
-      // $('.input-list').on('keyup', function(event) {
-      //   console.log('in');
-      //   if(event.keycode === 13) {
-      //     console.log('input clicked');
-      //     event.stopPropagation();
-      //     event.preventDefault();
-      //     let $parent = $(this).parent();
-      //     let $list = $parent.next();
-      //     let userInput = $(this).val();
-      //     $list.val('');
-      //     addListItem($list, userInput);
-      //   }
-      //   return false;
-      // });
-
-      $('form').submit(function(event) {
-        // if(event.keycode === 13) {
-        //   event.preventDefault();
-        //   return false;
-        // }
-        
-        // add to the submission all character strengths and weaknesses
-        let strengths = [];
-        $('#strengthsList li').each(function(index, li) {
-          strengths.push(li.innerText);
-        });
-        $('input[name=strengths]').val(strengths.join(';'));
-
-        let weaknesses = [];
-        $('#weaknessesList li').each(function(index, li) {
-          weaknesses.push(li.innerText);
-        });
-        $('input[name=weaknesses]').val(weaknesses.join(';'));
-      })
-
       // remove strength/weakness
       $('.form-group').on('click', 'li', function() {
         $(this).remove();
       });
-
-      // let archetypeOptions = [];
-      // let strengths = new SelectPure("#strengths", {
-      //   options: [ {label: 'hi', value: '1'} ],
-      //   multiple: true,
-      //   icon: "fa fa-times"
-      // });
-
-      // get the character and archetype data to populate page
-      // getArchetypes().then(response => {
-      //   archetypeOptions = response.map(archetype => {
-      //     return {
-      //       label: archetype.name,
-      //       value: archetype.id.toString()
-      //     }
-      //   });
-
-        // set up select pure
-        // archetypeSelect = new SelectPure("#archetypeSelect", {
-        //   options: archetypeOptions,
-        //   multiple: true,
-        //   icon: "fa fa-times"
-        // });
-      // });
 
       // logic to visually display which radio button selected
       $('input[type=radio]').on('change', function() {
@@ -349,10 +240,9 @@
       if(userInput != '') { // the idiot check
         let item = document.createElement('li');
         item.innerText = userInput;
-        item.classList.add('list-group-item');
         listElement.append(item);
         listElement.css('display', 'block');
       }
     }
-  </script>
+  </script> --}}
 @endsection

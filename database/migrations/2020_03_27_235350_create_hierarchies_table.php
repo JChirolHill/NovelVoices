@@ -20,8 +20,8 @@ class CreateHierarchiesTable extends Migration
 
         // Insert initial values
         DB::table('hierarchies')->insert([
-            [ 'name' => 'Major Character' ],
-            [ 'name' => 'Minor Character' ],
+            [ 'name' => 'Major' ],
+            [ 'name' => 'Minor' ],
             [ 'name' => 'Extra' ]
         ]);
     }

@@ -17,6 +17,7 @@
 body {
   font-family: "Raleway", sans-serif;
   background-color: var(--primary-light);
+  margin-bottom: 20px;
 }
 
 h1 {
@@ -114,6 +115,7 @@ a:hover {
 .banner .pic {
   width: 100%;
   transition: 0.5s all;
+  filter: blur(4px) brightness(0.75);
 }
 
 .banner .pic:hover {
@@ -127,11 +129,15 @@ a:hover {
 }
 
 .banner .banner-text {
-  text-shadow: 0px 0px 4px var(--primary-dark);
+  text-shadow: 0px 0px 3px var(--primary-dark);
   position: absolute;
   top: 0;
   height: 100%;
   width: 100%;
+}
+
+.banner .banner-text p {
+  font-size: 20px;
 }
 
 .banner .banner-text-left {
@@ -159,6 +165,16 @@ a:hover {
 .coverup-right {
   right: 65%;
   transform: rotate(15deg);
+}
+
+@media (min-width: 768px) {
+  .banner .pic {
+    filter: none;
+  }
+
+  .banner .banner-text p {
+    font-size: 16px;
+  }
 }
 /* End banner */
 
