@@ -24,29 +24,29 @@
 @section('content')
   <ul class="list-group list-group-flush">
     <li class="list-group-item">
-      <h4>My Character Archetype: {{$character->archetype->name}} <i class="fas fa-edit"></i></h4>
+      <h4>My Character Archetype: {{$character->archetype->name}} <a href="/character/{{$character->id}}/edit"><i class="fas fa-edit"></i></a></h4>
       Read more about <a href="/info/character_archetypes" target="_blank">character archetypes.</a>
     </li>
     <li class="list-group-item">
-      <h4>I am a {{$character->dynamic ? 'Dynamic' : 'Static'}} character <i class="fas fa-edit"></i></h4>
+      <h4>I am a {{$character->dynamic ? 'Dynamic' : 'Static'}} character <a href="/character/{{$character->id}}/edit"><i class="fas fa-edit"></i></a></h4>
       Read more about types of <a href="/info/dynamic_static" target="_blank">character development</a>.
     </li>
     <li class="list-group-item">
-      <h4>I am a {{$character->hierarchy->name}} character <i class="fas fa-edit"></i></h4>
+      <h4>I am a {{$character->hierarchy->name}} character <a href="/character/{{$character->id}}/edit"><i class="fas fa-edit"></i></a></h4>
       Read more about <a href="/info/hierarchies" target="_blank">character hierarchies</a>.
     </li>
     <li class="list-group-item">
       <div class="row">
         <div class="card col-12 col-md mx-2 mb-2 mb-md-0">
           <div class="card-body">
-            <h4 class="card-title">Motivation <i class="fas fa-edit"></i></h4>
+            <h4 class="card-title">Motivation <a href="/character/{{$character->id}}/edit"><i class="fas fa-edit"></i></a></h4>
             <h6 class="card-subtitle mb-2 text-muted">What I want and what drives me</h6>
             <p class="card-text">{{$character->motivation}}</p>
           </div>
         </div>
         <div class="card col-12 col-md mx-2 mb-2 mb-md-0">
           <div class="card-body">
-            <h4 class="card-title">First Impression <i class="fas fa-edit"></i></h4>
+            <h4 class="card-title">First Impression <a href="/character/{{$character->id}}/edit"><i class="fas fa-edit"></i></a></h4>
             <h6 class="card-subtitle mb-2 text-muted">My first impression to other characters</h6>
             <p class="card-text">{{$character->impression}}</p>
           </div>
@@ -54,7 +54,7 @@
         @if($character->backstory)
           <div class="card col-12 col-md mx-2 mb-2 mb-md-0">
             <div class="card-body">
-              <h4 class="card-title">Backstory <i class="fas fa-edit"></i></h4>
+              <h4 class="card-title">Backstory <a href="/character/{{$character->id}}/edit"><i class="fas fa-edit"></i></a></h4>
               <h6 class="card-subtitle mb-2 text-muted">The past I carry with me</h6>
               <p class="card-text">{{$character->backstory}}</p>
             </div>
@@ -65,7 +65,7 @@
       <div class="row mt-2">
         <div class="card col-12 col-md mx-2 mb-2 mb-md-0">
           <div class="card-body">
-            <h4 class="card-title">My Strengths <i class="fas fa-edit"></i></h4>
+            <h4 class="card-title">My Strengths <a href="/character/{{$character->id}}/edit"><i class="fas fa-edit"></i></a></h4>
             @if($strengths)
               <ul class="list-group list-group-flush">
                 @foreach($strengths as $strength)
@@ -79,7 +79,7 @@
         </div>
         <div class="card col-12 col-md mx-2 mb-2 mb-md-0">
           <div class="card-body">
-            <h4 class="card-title">My Weaknesses <i class="fas fa-edit"></i></h4>
+            <h4 class="card-title">My Weaknesses <a href="/character/{{$character->id}}/edit"><i class="fas fa-edit"></i></a></h4>
             @if($weaknesses)
               <ul class="list-group list-group-flush">
                 @foreach($weaknesses as $weakness)

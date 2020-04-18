@@ -178,7 +178,7 @@
           $this.addClass('visible');
           $this.next().prop('checked', true);
         @endforeach
-      @elseif($story->characters)
+      @elseif(isset($story) && $story->characters)
         let $this;
         @foreach($story->characters as $character)
           $this = $('.character-overlay[data-id={{$character->id}}]');

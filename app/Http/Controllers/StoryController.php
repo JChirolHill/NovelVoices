@@ -100,7 +100,6 @@ class StoryController extends Controller
       ]);
 
       // store in database
-      $story = Story::find($story->id);
       $story->title = $request->title;
       $story->theme_id = $request->theme;
       $story->archetype_id = $request->archetype;

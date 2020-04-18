@@ -28,7 +28,7 @@ class CharacterController extends Controller
     }
 
     public function store(Request $request) {
-      // dd($request);
+      dd($request);
       // validation
       $request->validate([
         'name' => 'required|max:50',
@@ -73,6 +73,60 @@ class CharacterController extends Controller
         'strengths' => $strengths,
         'weaknesses' => $weaknesses
       ]);
+    }
+
+    public function edit(Character $character) {
+      // get all archetypes
+      $archetypes = CharArchetype::all();
+
+      // get all hierarchies
+      $hierarchies = Hierarchy::all();
+
+      // hierarchy id associated with character extra
+      $extraHierarchy = Hierarchy::where('name', '=', 'Extra')->first();
+
+      // parse out the strengths and weaknesses into arrays
+      $strengths = $character->strength ? explode(";", $character->strength) : null;
+      $weaknesses = $character->weakness ? explode(";", $character->weakness) : null;
+
+      return view('character.add', [
+        'character' => $character,
+        'strengths' => $strengths,
+        'weaknesses' => $weaknesses,
+        'archetypes' => $archetypes,
+        'hierarchies' => $hierarchies,
+        'extraHierarchy' => $extraHierarchy
+      ]);
+    }
+
+    public function update(Character $character, Request $request) {
+      // validation
+      $request->validate([
+        'name' => 'required|max:50',
+        'archetype' => 'required|exists:char_archetypes,id',
+        'development' => 'required|integer|min:0|max:1',
+        'hierarchy' => 'required|exists:hierarchies,id',
+        'motivation' => 'required|min:5|max:120',
+        'impression' => 'required|min:5|max:120',
+        'backstory' => 'nullable|max:120',
+        'strengths' => 'nullable',
+        'weaknesses' => 'nullable'
+      ]);
+
+      // store in database
+      $character->name = $request->name;
+      $character->archetype_id = $request->archetype;
+      $character->dynamic = $request->development;
+      $character->hierarchy_id = $request->hierarchy;
+      $character->motivation = $request->motivation;
+      $character->impression = $request->impression;
+      $character->backstory = $request->backstory;
+      $character->strength = $request->strengths;
+      $character->weakness = $request->weaknesses;
+      $character->save();
+
+      return redirect("/character/{$character->id}")
+        ->with('success', "Successfully edited character {$character->name}");
     }
 
     // generate random color (random hex code, then conver to color string)

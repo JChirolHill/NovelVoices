@@ -20,16 +20,16 @@ class CreateCharArchetypesTable extends Migration
 
         // Insert initial values
         DB::table('char_archetypes')->insert([
-          [ 'name' => 'Hero' ],
-          [ 'name' => 'Mentor' ],
-          [ 'name' => 'Everyman' ],
-          [ 'name' => 'Innocent' ],
-          [ 'name' => 'Villain/Shadow' ],
-          [ 'name' => 'Ally' ],
-          [ 'name' => 'Herald' ],
-          [ 'name' => 'Trickster' ],
-          [ 'name' => 'Shapshifter' ],
-          [ 'name' => 'Guardian' ]
+          [ 'name' => 'The Hero' ],
+          [ 'name' => 'The Mentor' ],
+          [ 'name' => 'The Everyman' ],
+          [ 'name' => 'The Innocent' ],
+          [ 'name' => 'The Shadow' ],
+          [ 'name' => 'The Ally' ],
+          [ 'name' => 'The Herald' ],
+          [ 'name' => 'The Trickster' ],
+          [ 'name' => 'The Shapshifter' ],
+          [ 'name' => 'The Guardian' ]
         ]);
     }
 

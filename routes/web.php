@@ -28,8 +28,12 @@ Route::middleware(['auth'])->group(function() {
   Route::get('/character', 'CharacterController@index');
   Route::post('/character', 'CharacterController@store');
   Route::get('/character/{character}', 'CharacterController@view');
+  Route::get('/character/{character}/edit', 'CharacterController@edit');
+  Route::post('/character/{character}/edit', 'CharacterController@update');
 
   Route::get('/probe', 'ProbeController@index');
+  Route::post('/probe/message', 'ProbeController@handleMessage');
+  Route::post('/probe/entities', 'ProbeController@handleEntities');
 });
 
 // Authentication handling
