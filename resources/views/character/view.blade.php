@@ -22,6 +22,9 @@
 @endsection
 
 @section('content')
+  <div class="text-right">
+    <button class="btn text-danger" type="button" data-toggle="modal" data-target="#deleteModal">Delete</button>
+  </div>
   <ul class="list-group list-group-flush">
     <li class="list-group-item">
       <h4>My Character Archetype: {{$character->archetype->name}} <a href="/character/{{$character->id}}/edit"><i class="fas fa-edit"></i></a></h4>
@@ -94,155 +97,24 @@
       </div>
     </li>
   </ul>
-  {{-- <form action="/character" method="post">
-    @csrf
-    <div class="form-group">
-      <input class="form-control" type="text" name="name" placeholder="Give me a name" value="{{old('name')}}"/>
-      @error('name')
-        <div class="text-danger">{{$message}}</div>
-      @enderror
-    </div>
 
-    <div class="form-group">
-      <label for="archetypeSelect"><h4>Select My Character Archetype</h4></label>
-      <p>Not sure what to pick?  Learn more about <a href="/info/character_archetypes" target="_blank">character archetypes</a></p>
-      @error('archetype')
-        <div class="text-danger">{{$message}}</div>
-      @enderror
-      <select id="archetypeSelect" class="form-control" name="archetype">
-        @foreach($archetypes as $archetype)
-          <option value="{{$archetype->id}}" {{old('archetype') == $archetype->id ? 'selected' : ''}}>
-            {{$archetype->name}}
-          </option>
-        @endforeach
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="development"><h4>Select My Character Development</h4></label>
-      <p>Not sure what to pick?  Learn more about <a href="/info/dynamic_static" target="_blank">static and dynamic characters</a></p>
-      @error('development')
-        <div class="text-danger">{{$message}}</div>
-      @enderror
-      <label class="radioLabel {{old('development') === "0" ? 'selected' : ''}}">
-        <input type="radio" name="development" value="0" {{old('development') === "0" ? 'checked' : ''}}/>Static
-      </label>
-      <label class="radioLabel {{old('development') === "1" ? 'selected' : ''}}">
-        <input type="radio" name="development" value="1" {{old('development') === "1" ? 'checked' : ''}}/>Dynamic
-      </label>
-    </div>
-
-    <div class="form-group">
-      <label for="hierarchy"><h4>Select My Character Hierarchy</h4></label>
-      <p>Not sure what to pick?  Learn more about <a href="/info/hierarchies" target="_blank">character hierarchies</a></p>
-      @error('hierarchy')
-        <div class="text-danger">{{$message}}</div>
-      @enderror
-      @foreach($hierarchies as $hierarchy)
-        <label class="radioLabel {{old('hierarchy') == $hierarchy->id ? 'selected' : ''}}">
-          <input type="radio" name="hierarchy" value="{{$hierarchy->id}}" {{old('hierarchy') == $hierarchy->id ? 'checked' : ''}}/>{{$hierarchy->name}}
-        </label>
-      @endforeach
-    </div>
-
-    <div class="form-group">
-      <label for="motivation">What drives me?</label>
-      @error('motivation')
-        <div class="text-danger">{{$message}}</div>
-      @enderror
-      <textarea id="motivation" class="form-control" name="motivation">{{old('motivation')}}</textarea>
-    </div>
-
-    <div class="form-group">
-      <label for="impression">What is my first impression to other characters or the reader?</label>
-      @error('impression')
-        <div class="text-danger">{{$message}}</div>
-      @enderror
-      <textarea id="impression" class="form-control" name="impression">{{old('impression')}}</textarea>
-    </div>
-
-    <div class="form-group" id="backstoryGroup">
-      <label for="backstory">What is my backstory (if I have one)?</label>
-      @error('backstory')
-        <div class="text-danger">{{$message}}</div>
-      @enderror
-      <textarea id="backstory" class="form-control" name="backstory">{{old('backstory')}}</textarea>
-    </div>
-
-    <div class="row">
-      <div class="form-group col-12 col-md-6">
-        <label for="strengths">What are my strengths?</label>
-        <div class="input-group">
-          <input id="strengths" type="text" class="form-control input-list" name="strengths" placeholder="Grit, loyal, funny, fearless, smart..."/>
-          <button type="button" class="btn btn-my-primary-dark btn-list">Add Strength</button>
+  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteModalLabel">Delete {{$character->name}}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
-        <ul></ul>
-      </div>
-
-      <div class="form-group col-12 col-md-6">
-        <label for="weaknesses">What are my flaws?</label>
-        <div class="input-group">
-          <input id="weaknesses" type="text" class="form-control input-list" name="weaknesses" placeholder="Arrogant, vengeful, lazy, careless..."/>
-          <button type="button" class="btn btn-my-primary-dark btn-list">Add Flaw</button>
+        <div class="modal-body text-danger">
+          Are you sure you want to delete {{$character->name}}?  This action cannot be undone.
         </div>
-        <ul></ul>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <a href="/character/{{$character->id}}/delete" class="btn btn-danger">Delete</a>
+        </div>
       </div>
     </div>
-
-    <div class="form-group text-right">
-      <button class="btn btn-my-primary" type="submit">Save My Character</button>
-    </div>
-  </form> --}}
-@endsection
-
-@section('scripts')
-  {{-- <script src="{{ asset('scripts/bundle.min.js') }}"></script>
-  <script type="text/javascript">
-    $(document).ready(function() {
-      updateBackstoryDisplay();
-
-      // add strength/weakness - on button click
-      $('.btn-list').on('click', function() {
-        let $list = $(this).parent().next();
-        let $input = $(this).prev();
-        let userInput = $input.val();
-        $input.val('');
-        addListItem($list, userInput);
-      });
-
-      // remove strength/weakness
-      $('.form-group').on('click', 'li', function() {
-        $(this).remove();
-      });
-
-      // logic to visually display which radio button selected
-      $('input[type=radio]').on('change', function() {
-        let $parent = $(this).parent();
-        $parent.parent().find('.radioLabel').removeClass('selected');
-        $parent.addClass('selected');
-
-        updateBackstoryDisplay();
-      });
-    });
-
-    function updateBackstoryDisplay() {
-      // only show backstory if not an 'extra' character
-      let selectedHierarchy = $('input[name=hierarchy]:checked').val();
-      if(typeof selectedHierarchy === 'undefined' || selectedHierarchy == {{$extraHierarchy->id}}) {
-        $('#backstoryGroup').css('display', 'none');
-      }
-      else {
-        $('#backstoryGroup').css('display', 'block');
-      }
-    }
-
-    function addListItem(listElement, userInput) {
-      if(userInput != '') { // the idiot check
-        let item = document.createElement('li');
-        item.innerText = userInput;
-        listElement.append(item);
-        listElement.css('display', 'block');
-      }
-    }
-  </script> --}}
+  </div>
 @endsection

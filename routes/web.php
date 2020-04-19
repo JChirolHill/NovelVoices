@@ -30,6 +30,7 @@ Route::middleware(['auth'])->group(function() {
   Route::get('/character/{character}', 'CharacterController@view');
   Route::get('/character/{character}/edit', 'CharacterController@edit');
   Route::post('/character/{character}/edit', 'CharacterController@update');
+  Route::get('/character/{character}/delete', 'CharacterController@delete');
 
   Route::get('/probe', 'ProbeController@index');
   Route::post('/probe/message', 'ProbeController@handleMessage');

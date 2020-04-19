@@ -129,6 +129,16 @@ class CharacterController extends Controller
         ->with('success', "Successfully edited character {$character->name}");
     }
 
+    public function delete(Character $character) {
+      // remove this character from database
+      $character->delete();
+
+      // redirect to home with success message
+      return redirect()
+        ->route('home')
+        ->with('success', "Successfully deleted character {$character->name}");
+    }
+
     // generate random color (random hex code, then conver to color string)
     private function random_color_part() {
       return str_pad( dechex( mt_rand( 0, 255 ) ), 2, '0', STR_PAD_LEFT);
