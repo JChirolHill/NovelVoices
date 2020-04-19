@@ -39,7 +39,7 @@ class StoryController extends Controller
         ],
         'descr' => 'required',
         'archetype' => 'required|exists:story_archetypes,id',
-        'theme' => 'exists:themes,id',
+        'theme' => 'nullable|exists:themes,id',
         'characters.*' => 'exists:characters,id'
       ]);
 

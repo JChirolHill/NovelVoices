@@ -7,6 +7,7 @@
   <style media="screen">
     /* Theme boxes */
     .theme {
+      width: 400px;
       height: 200px;
       overflow: hidden;
     }
@@ -121,7 +122,6 @@
           </option>
         @endforeach
       </select>
-      {{-- <span id="archetypeSelect"></span> --}}
     </div>
 
     <div class="form-group">
@@ -147,29 +147,8 @@
 @endsection
 
 @section('scripts')
-  {{-- <script src="{{ asset('scripts/bundle.min.js') }}"></script> --}}
   <script type="text/javascript">
     $(document).ready(() => {
-      // let archetypeOptions = [];
-      // let archetypeSelect;
-
-      // get the character and archetype data to populate page
-      // getArchetypes().then(response => {
-      //   archetypeOptions = response.map(archetype => {
-      //     return {
-      //       label: archetype.name,
-      //       value: archetype.id.toString()
-      //     }
-      //   });
-      //
-      //   // set up select pure
-      //   archetypeSelect = new SelectPure("#archetypeSelect", {
-      //     options: archetypeOptions,
-      //     multiple: true,
-      //     icon: "fa fa-times"
-      //   });
-      // });
-
       @if(old('characters'))
         // preselect all characters from the last submission
         let $this;
@@ -199,32 +178,6 @@
 				$(this).addClass('theme-selected');
         $('input[name=theme]').val($(this).data('themeId'));
 			});
-
-      // whem form submits
-      // $('form').submit(function(event) {
-        // get all characters selected
-        // let charIds = [];
-        // $('.character-item .visible').each(function(index) {
-        //   console.log(index);
-        //   $('#characterInput').val()[index] = $(this).data('id')
-        //   // charIds.push($(this).data('id'));
-        // });
-        // $('#characterInput').val(charIds);
-        // console.log(charIds);
-        // console.log($('#characterInput'));
-        // console.log($('#characterInput').val());
-        // event.preventDefault();
-
-        // get values in archetype dropdown
-        // $('input[name=archetypes]').val(archetypeSelect.value().map((selection) => {
-        //   return Number(selection);
-        // }));
-      // })
     });
-
-    // async function getArchetypes() {
-    //   let response = await fetch(`/story_archetypes`);
-    //   return response.json();
-    // }
   </script>
 @endsection
