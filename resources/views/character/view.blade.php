@@ -39,6 +39,14 @@
       Read more about <a href="/info/hierarchies" target="_blank">character hierarchies</a>.
     </li>
     <li class="list-group-item">
+      <h4>I Appear In</h4>
+      <div class="row">
+        @foreach($character->stories as $story)
+          <div class="col-2"><a href="/story/{{$story->id}}">{{$story->title}}</a></div>
+        @endforeach
+      </div>
+    </li>
+    <li class="list-group-item">
       <div class="row">
         <div class="card col-12 col-md mx-2 mb-2 mb-md-0">
           <div class="card-body">
