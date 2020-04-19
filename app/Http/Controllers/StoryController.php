@@ -113,6 +113,16 @@ class StoryController extends Controller
         ->with('success', "Successfully edited story {$story->title}");
     }
 
+    public function delete(Story $story) {
+      // remove this story from database
+      $story->delete();
+
+      // redirect to home with success message
+      return redirect()
+        ->route('home')
+        ->with('success', "Successfully deleted story {$story->title}");
+    }
+
     public function archetypes() {
       $archetypes = StoryArchetype::all();
       return response()->json($archetypes);

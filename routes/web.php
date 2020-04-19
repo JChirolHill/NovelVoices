@@ -23,6 +23,7 @@ Route::middleware(['auth'])->group(function() {
   Route::get('/story/{story}', 'StoryController@view');
   Route::get('/story/{story}/edit', 'StoryController@edit');
   Route::post('/story/{story}/edit', 'StoryController@update');
+  Route::get('/story/{story}/delete', 'StoryController@delete');
   Route::get('/story_archetypes', 'StoryController@archetypes');
 
   Route::get('/character', 'CharacterController@index');
