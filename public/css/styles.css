@@ -167,6 +167,11 @@ a:hover {
   transform: rotate(15deg);
 }
 
+.form-control:focus {
+  border-color: var(--secondary);
+  box-shadow: none;
+}
+
 @media (min-width: 768px) {
   .banner .pic {
     filter: none;

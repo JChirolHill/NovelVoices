@@ -131,59 +131,75 @@
       // clicking on clickable text automatically appends to chat and sends request
       $('#chat-window').on('click', '.clickable-text', function() {
         let $textfield = $('#text-field');
-        $textfield.val(`${$textfield.val()} #${$(this).text()}`);
+        $textfield.val(`${$textfield.val()} #${$(this).text().replace(' ', '_')}`);
         $('.send-btn').click();
       });
 
       // handles the 'send' button
+      let waitForReplies = false;
+      let probeResponses = [];
       $('.send-btn').on('click', function() {
         let $textfield = $('#text-field');
-        let message = $textfield.val()
+        let message = $textfield.val();
 
         appendToChat(true, message);
 
         // clear the text area
         $textfield.val('');
 
-        // send to backend
-        sendMessage(message).then(response => {
-          console.log(response);
-          if(response['todo'] === 'post') {
-            // append the response message
-            appendToChat(false, response['message']);
-          }
-          else if(response['todo'] === 'entityAnalysis') {
-            // query google NLP entity analysis
-            entityAnalysis(response['original']).then(response => {
-              console.log(response);
+        if(probeResponses.length > 0) { // have stock messages, print those rather than send to backend
+          appendToChat(false, probeResponses[0].replace('_', ' '));
+          probeResponses.splice(0, 1);
+        }
+        else {
+          // send to backend
+          sendMessage(message).then(response => {
+            console.log(response);
+            if(response['todo'] === 'post') {
+              initProbing(response);
 
-              // send results to backend for parsing
-              parseEntities(response).then(response => {
+              // append the response message
+              appendToChat(false, response['message0'].replace('_', ' '));
+            }
+            else if(response['todo'] === 'entityAnalysis') {
+              waitForReplies = false;
+
+              // query google NLP entity analysis
+              entityAnalysis(response['original']).then(response => {
                 console.log(response);
 
-                if(response['todo'] === 'post') {
-                  // append the response message
-                  appendToChat(false, response['message']);
-                }
-                else if(response['todo'] === 'clickables') {
-                  // create spans of clickable items
-                  let spans = [];
-                  response.entities.forEach(function(entity) {
-                    let span = document.createElement('span');
-                    span.classList.add('clickable-text');
-                    span.innerText = entity.name;
-                    let dataAttr = document.createAttribute('data-type');
-                    dataAttr.value = entity.type;
-                    span.setAttributeNode(dataAttr);
-                    spans.push(span);
-                  });
+                // send results to backend for parsing
+                parseEntities(response).then(response => {
+                  console.log(response);
 
-                  appendToChat(false, response['message'], spans);
-                }
+                  if(response['todo'] === 'post') {
+                    initProbing(response);
+
+                    // append the response message
+                    appendToChat(false, response['message0']);
+                  }
+                  else if(response['todo'] === 'clickables') {
+                    waitForReplies = false;
+
+                    // create spans of clickable items
+                    let spans = [];
+                    response.entities.forEach(function(entity) {
+                      let span = document.createElement('span');
+                      span.classList.add('clickable-text');
+                      span.innerText = entity.name;
+                      let dataAttr = document.createAttribute('data-type');
+                      dataAttr.value = entity.type;
+                      span.setAttributeNode(dataAttr);
+                      spans.push(span);
+                    });
+
+                    appendToChat(false, response['message'], spans);
+                  }
+                });
               });
-            });
-          }
-        });
+            }
+          });
+        }
       });
 
       async function sendMessage(message) {
@@ -252,8 +268,9 @@
         chatWindow.scrollTop = chatWindow.scrollHeight;
       }
 
-      function createClickable(text) {
-        let clickable = document.c
+      function initProbing(response) {
+        waitForReplies = true;
+        probeResponses.push(response['message1'], response['message2']);
       }
     });
   </script>
