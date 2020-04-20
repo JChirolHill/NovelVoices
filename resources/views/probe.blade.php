@@ -156,10 +156,11 @@
           sendMessage(message).then(response => {
             console.log(response);
             if(response['todo'] === 'post') {
-              initProbing(response);
+              initProbing(response['messages']);
 
               // append the response message
-              appendToChat(false, response['message0'].replace('_', ' '));
+              appendToChat(false, probeResponses[0].replace('_', ' '));
+              probeResponses.splice(0, 1);
             }
             else if(response['todo'] === 'entityAnalysis') {
               waitForReplies = false;
@@ -172,11 +173,15 @@
                 parseEntities(response).then(response => {
                   console.log(response);
 
-                  if(response['todo'] === 'post') {
-                    initProbing(response);
+                  if(response['todo'] === 'new_prompt') {
+                    appendToChat(false, response['message']);
+                  }
+                  else if(response['todo'] === 'post') {
+                    initProbing(response['messages']);
 
                     // append the response message
-                    appendToChat(false, response['message0']);
+                    appendToChat(false, probeResponses[0].replace('_', ' '));
+                    probeResponses.splice(0, 1);
                   }
                   else if(response['todo'] === 'clickables') {
                     waitForReplies = false;
@@ -268,9 +273,9 @@
         chatWindow.scrollTop = chatWindow.scrollHeight;
       }
 
-      function initProbing(response) {
+      function initProbing(responses) {
         waitForReplies = true;
-        probeResponses.push(response['message1'], response['message2']);
+        probeResponses = responses;
       }
     });
   </script>
