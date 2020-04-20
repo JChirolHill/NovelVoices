@@ -39,7 +39,7 @@ class StoryController extends Controller
         ],
         'descr' => 'required',
         'archetype' => 'required|exists:story_archetypes,id',
-        'theme' => 'nullable|exists:themes,id',
+        'theme' => 'required|exists:themes,id',
         'characters.*' => 'exists:characters,id'
       ]);
 
@@ -135,8 +135,10 @@ class StoryController extends Controller
       }
 
       // add many to many relationships for characters
-      foreach($newCharIds as $charId) {
-        $story->characters()->attach(Character::find($charId));
+      if($newCharIds) {
+        foreach($newCharIds as $charId) {
+          $story->characters()->attach(Character::find($charId));
+        }
       }
     }
 }

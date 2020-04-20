@@ -40,6 +40,9 @@ class CreateCharArchetypesTable extends Migration
      */
     public function down()
     {
+        // TODO: remove this line
+        Schema::dropIfExists('characters'); // so able to drop everything, else get foreign key constraint
+
         Schema::dropIfExists('char_archetypes');
     }
 }

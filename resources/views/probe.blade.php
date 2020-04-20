@@ -236,7 +236,7 @@
       }
 
       async function entityAnalysis(message) {
-        let response = await fetch('https://language.googleapis.com/v1beta2/documents:analyzeEntities?key=AIzaSyCv72RLqVvNuGH4Wm_tPmzZxOBOOFT8DgE', {
+        let response = await fetch("{{env('GCP_NLP_API')}}", {
           method: 'POST',
           body: JSON.stringify({
             'document': {
