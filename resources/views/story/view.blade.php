@@ -6,7 +6,7 @@
 @section('styles')
   <style media="screen">
     body {
-      background-image: url({{ asset("assets/{$story->theme->url}") }});
+      background-image: url({{ $story->theme->user_id ? $story->theme->url : asset("assets/{$story->theme->url}") }});
       background-repeat: no-repeat;
       background-size: cover;
     }

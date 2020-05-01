@@ -15,28 +15,36 @@ class CreateThemesTable extends Migration
     {
         Schema::create('themes', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users');
             $table->string('url');
         });
 
         // Insert initial values
         DB::table('themes')->insert([
             [
-                'url' => 'beach.jpg'
+                'url' => 'beach.jpg',
+                'user_id' => null
             ],
             [
-                'url' => 'dream-catcher.jpg'
+                'url' => 'dream-catcher.jpg',
+                'user_id' => null
             ],
             [
-                'url' => 'friendship.jpg'
+                'url' => 'friendship.jpg',
+                'user_id' => null
             ],
             [
-                'url' => 'ice.jpg'
+                'url' => 'ice.jpg',
+                'user_id' => null
             ],
             [
-                'url' => 'planet.jpg'
+                'url' => 'planet.jpg',
+                'user_id' => null
             ],
             [
-                'url' => 'sleeping.jpg'
+                'url' => 'sleeping.jpg',
+                'user_id' => null
             ]
         ]);
     }

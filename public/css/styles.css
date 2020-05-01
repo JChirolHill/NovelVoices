@@ -67,6 +67,10 @@ a:hover {
   color: var(--ternary);
 }
 
+.navbar-dark .navbar-nav .nav-link.disabled {
+  color: white;
+}
+
 .bg-primary-dark {
   background-image: linear-gradient(var(--ternary-dark), rgba(0, 0, 0, 0));
 }

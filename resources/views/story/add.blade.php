@@ -66,6 +66,11 @@
     input[type=checkbox] {
       display: none;
     }
+
+    #containerPreviewImg {
+      border-radius: 10px;
+      background-image: linear-gradient(rgba(0,0,0,0) 20%, rgba(226, 231, 233, 1));
+    }
   </style>
 @endsection
 
@@ -127,10 +132,28 @@
     <div class="form-group">
       <label><h4>Choose a Theme</h4></label>
       <p>A theme will set the mood for your story</p>
+      <input type="hidden" name="customTheme" value="{{old('customTheme') ? old('customTheme') : (isset($story) && $story->theme->user_id != NULL ? 1 : 0)}}"/>
       <input type="hidden" name="theme" value="{{old('theme') ? old('theme') : (isset($story) ? $story->theme_id : '')}}"/>
+      @error('customTheme')
+        <div class="text-danger">{{$message}}</div>
+      @enderror
       @error('theme')
         <div class="text-danger">{{$message}}</div>
       @enderror
+      @error('themeUrl')
+        <div class="text-danger">{{$message}}</div>
+      @enderror
+      <div class="form-group input-group">
+        <input class="form-control" type="text" name="themeUrl" value="{{old('themeUrl') ? old('themeUrl') : (isset($story) && $story->theme->user_id != NULL ? $story->theme->url : '')}}" placeholder="Or place here a url to an image of your choice"/>
+        <div class="input-group-append">
+          <button type="button" class="input-group-text btn" id="btnPreviewImg">Preview</button>
+        </div>
+      </div>
+      <div class="form-group justify-content-center {{old('themeUrl') || (isset($story) && $story->theme->user_id != NULL) ? 'd-flex' : 'd-none'}}" id="containerPreviewImg">
+        <div class="col-12 col-sm-6 col-md-4 mb-3 theme theme-selected">
+          <img src="{{old('themeUrl') ? old('themeUrl') : (isset($story) ? $story->theme->url : '')}}" alt="Please verify this is the image you want.  If not, please check the url.">
+        </div>
+      </div>
       <div class="row">
         @foreach($themes as $theme)
           <div class="col-12 col-sm-6 col-md-4 mb-3 theme {{old('theme') == $theme->id ? 'theme-selected' : (isset($story) && $story->theme_id == $theme->id ? 'theme-selected' : '')}}" data-theme-id="{{$theme->id}}">
@@ -177,7 +200,21 @@
 				$('.theme').removeClass('theme-selected');
 				$(this).addClass('theme-selected');
         $('input[name=theme]').val($(this).data('themeId'));
+        $('input[name=customTheme]').val(0);
+        $('input[name=themeUrl]').val('');
 			});
+
+      // set on click for preview image
+      $('#btnPreviewImg').on('click', function() {
+        let $previewContainer = $('#containerPreviewImg');
+        $previewContainer.removeClass('d-none');
+        $previewContainer.addClass('d-flex');
+
+        $previewContainer.find('img').attr('src', $('input[name=themeUrl]').val());
+
+        // represents theme selected by user rather than one of the defaults
+        $('input[name=customTheme]').val(1);
+      });
     });
   </script>
 @endsection

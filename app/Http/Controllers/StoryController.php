@@ -17,7 +17,7 @@ class StoryController extends Controller
       $characters = Character::with('archetype')->where('user_id', '=', Auth::id())->get();
 
       // get all themes
-      $themes = Theme::all();
+      $themes = Theme::whereNull('user_id')->get();
 
       // get all archetypes
       $archetypes = StoryArchetype::all();
@@ -39,15 +39,26 @@ class StoryController extends Controller
         ],
         'descr' => 'required',
         'archetype' => 'required|exists:story_archetypes,id',
-        'theme' => 'required|exists:themes,id',
+        'customTheme' => 'required|numeric|min:0|max:1',
+        'theme' => 'exclude_if:customTheme,1|required|exists:themes,id',
+        'themeUrl' => 'exclude_if:customTheme,0|required',
         'characters.*' => 'exists:characters,id'
       ]);
+
+      // add theme url if necessary
+      $theme = NULL;
+      if($request->customTheme && $request->themeUrl) {
+        $theme = new Theme();
+        $theme->url = $request->themeUrl;
+        $theme->user_id = Auth::id();
+        $theme->save();
+      }
 
       // store in database
       $story = new Story();
       $story->title = $request->title;
       $story->user_id = Auth::id();
-      $story->theme_id = $request->theme;
+      $story->theme_id = $theme ? $theme->id : $request->theme;
       $story->archetype_id = $request->archetype;
       $story->descr = $request->descr;
       $story->save();
@@ -61,6 +72,7 @@ class StoryController extends Controller
     }
 
     public function view(Story $story) {
+      // dd(Theme::all());
       return view('story.view', [
         'story' => $story,
         'characters' => $story->characters
@@ -72,7 +84,7 @@ class StoryController extends Controller
       $characters = Character::with('archetype')->where('user_id', '=', Auth::id())->get();
 
       // get all themes
-      $themes = Theme::all();
+      $themes = Theme::whereNull('user_id')->get();
 
       // get all archetypes
       $archetypes = StoryArchetype::all();
@@ -95,16 +107,41 @@ class StoryController extends Controller
         ],
         'descr' => 'required',
         'archetype' => 'required|exists:story_archetypes,id',
-        'theme' => 'exists:themes,id',
+        'customTheme' => 'required|numeric|min:0|max:1',
+        'theme' => 'exclude_if:customTheme,1|required|exists:themes,id',
+        'themeUrl' => 'exclude_if:customTheme,0|required',
         'characters.*' => 'exists:characters,id'
       ]);
 
+      // add theme url if necessary
+      $oldThemeId = $story->theme->id;
+      // dd($request->theme);
+      $theme = Theme::find($request->theme);
+      if($request->customTheme && $request->themeUrl) { // chose custom theme this time
+        if($theme && $theme->user_id != null) { // already have custom theme for this story, just edit it
+          $theme->url = $request->themeUrl;
+          $theme->save();
+        }
+        else { // do not yet have custom theme for this story, create one
+          $theme = new Theme();
+          $theme->url = $request->themeUrl;
+          $theme->user_id = Auth::id();
+          $theme->save();
+        }
+      }
+
       // store in database
       $story->title = $request->title;
-      $story->theme_id = $request->theme;
+      $story->theme_id = $request->customTheme && $request->themeUrl ? $theme->id : $request->theme;
       $story->archetype_id = $request->archetype;
       $story->descr = $request->descr;
       $story->save();
+
+      // used to have custom theme, not anymore, delete it from database
+      $oldTheme = Theme::find($oldThemeId);
+      if(!($request->customTheme && $request->themeUrl) && $oldTheme->user_id !== NULL) {
+        $oldTheme->delete();
+      }
 
       $this->updateManyToManyChars($story, $request->characters);
 

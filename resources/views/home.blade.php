@@ -93,7 +93,7 @@
             <div class="banner">
               @if($index % 2 == 0)
                 <div class="pic">
-                  <img src="{{ asset("assets/{$story->theme->url}") }}" alt="{{$story->title}}"/>
+                  <img src="{{ $story->theme->user_id ? $story->theme->url : asset("assets/{$story->theme->url}") }}" alt="{{$story->title}}"/>
                 </div>
                 <div class="banner-text-half">
                   <div class="coverup coverup-right"></div>
@@ -115,7 +115,7 @@
                   </div>
                 </div>
                 <div class="pic">
-                  <img src="{{ asset("assets/{$story->theme->url}") }}" alt="{{$story->title}}"/>
+                  <img src="{{ $story->theme->user_id ? $story->theme->url : asset("assets/{$story->theme->url}") }}" alt="{{$story->title}}"/>
                 </div>
               @endif
             </div>
