@@ -40,11 +40,15 @@
     </li>
     <li class="list-group-item">
       <h4>I Appear In</h4>
-      <div class="row">
-        @foreach($character->stories as $story)
-          <div class="col-2"><a href="/story/{{$story->id}}">{{$story->title}}</a></div>
-        @endforeach
-      </div>
+      @if(sizeof($character->stories) > 0)
+        <div class="row">
+          @foreach($character->stories as $story)
+            <div class="col-2"><a href="/story/{{$story->id}}">{{$story->title}}</a></div>
+          @endforeach
+        </div>
+      @else
+        I do not yet appear in any stories.
+      @endif
     </li>
     <li class="list-group-item">
       <div class="row">

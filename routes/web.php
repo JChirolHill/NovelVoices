@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'LandingController@index')->name('landing');
+Route::get('/about', 'LandingController@index');
 
 Route::middleware(['auth'])->group(function() {
   Route::get('/home', 'HomeController@index')->name('home');

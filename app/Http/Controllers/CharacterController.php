@@ -28,7 +28,6 @@ class CharacterController extends Controller
     }
 
     public function store(Request $request) {
-      dd($request);
       // validation
       $request->validate([
         'name' => 'required|max:50',
@@ -130,6 +129,11 @@ class CharacterController extends Controller
     }
 
     public function delete(Character $character) {
+      // remove any story_character relationships with this character
+      foreach($character->stories as $story) {
+        $character->stories()->detach($story->id);
+      }
+
       // remove this character from database
       $character->delete();
 

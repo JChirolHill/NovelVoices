@@ -3,6 +3,10 @@
 
 @section('styles')
   <style media="screen">
+    body {
+      margin-bottom: 0;
+    }
+
     /* make navbar stick to top */
     .navbar {
       position: fixed;

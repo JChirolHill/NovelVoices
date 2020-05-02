@@ -49,7 +49,6 @@ class ProbeController extends Controller
       else {
         $response['todo'] = 'entityAnalysis';
         $response['original'] = $request->input('message');
-        // $response['message'] = "I'm not sure what you're saying.";
       }
 
       return response()->json($response);

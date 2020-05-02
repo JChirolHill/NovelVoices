@@ -138,9 +138,11 @@
       // handles the 'send' button
       let waitForReplies = false;
       let probeResponses = [];
+      let cummulativeMessage = '';
       $('.send-btn').on('click', function() {
         let $textfield = $('#text-field');
-        let message = $textfield.val();
+        message = $textfield.val();
+        cummulativeMessage += ` ${$textfield.val()}`;
 
         appendToChat(true, message);
 
@@ -152,9 +154,13 @@
           probeResponses.splice(0, 1);
         }
         else {
+          console.log(cummulativeMessage);
           // send to backend
-          sendMessage(message).then(response => {
+          sendMessage(cummulativeMessage).then(response => {
             console.log(response);
+            // clear the message that has been sent
+            cummulativeMessage = '';
+
             if(response['todo'] === 'post') {
               initProbing(response['messages']);
 
@@ -168,11 +174,9 @@
               // query google NLP entity analysis
               entityAnalysis(response['original']).then(response => {
                 console.log(response);
-
                 // send results to backend for parsing
                 parseEntities(response).then(response => {
                   console.log(response);
-
                   if(response['todo'] === 'new_prompt') {
                     appendToChat(false, response['message']);
                   }

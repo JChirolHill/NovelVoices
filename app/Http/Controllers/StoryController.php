@@ -115,7 +115,6 @@ class StoryController extends Controller
 
       // add theme url if necessary
       $oldThemeId = $story->theme->id;
-      // dd($request->theme);
       $theme = Theme::find($request->theme);
       if($request->customTheme && $request->themeUrl) { // chose custom theme this time
         if($theme && $theme->user_id != null) { // already have custom theme for this story, just edit it
@@ -151,6 +150,11 @@ class StoryController extends Controller
     }
 
     public function delete(Story $story) {
+      // remove any story_character relationships with this story
+      foreach($story->characters as $character) {
+        $story->characters()->detach($character->id);
+      }
+
       // remove this story from database
       $story->delete();
 
