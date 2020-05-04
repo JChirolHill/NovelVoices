@@ -62,6 +62,66 @@
       cursor: pointer;
     }
     /* End Chat UI */
+
+    /* Spinner */
+    .loader,
+    .loader:before,
+    .loader:after {
+      border-radius: 50%;
+      width: 2.5em;
+      height: 2.5em;
+      -webkit-animation-fill-mode: both;
+      animation-fill-mode: both;
+      -webkit-animation: load7 1.8s infinite ease-in-out;
+      animation: load7 1.8s infinite ease-in-out;
+    }
+    .loader {
+      color: var(--secondary-dark);
+      font-size: 6px;
+      margin: -20px auto 20px auto;
+      position: relative;
+      text-indent: -9999em;
+      -webkit-transform: translateZ(0);
+      -ms-transform: translateZ(0);
+      transform: translateZ(0);
+      -webkit-animation-delay: -0.16s;
+      animation-delay: -0.16s;
+    }
+    .loader:before,
+    .loader:after {
+      content: '';
+      position: absolute;
+      top: 0;
+    }
+    .loader:before {
+      left: -3.5em;
+      -webkit-animation-delay: -0.32s;
+      animation-delay: -0.32s;
+    }
+    .loader:after {
+      left: 3.5em;
+    }
+    @-webkit-keyframes load7 {
+      0%,
+      80%,
+      100% {
+        box-shadow: 0 2.5em 0 -1.3em;
+      }
+      40% {
+        box-shadow: 0 2.5em 0 0;
+      }
+    }
+    @keyframes load7 {
+      0%,
+      80%,
+      100% {
+        box-shadow: 0 2.5em 0 -1.3em;
+      }
+      40% {
+        box-shadow: 0 2.5em 0 0;
+      }
+    }
+    /* End Spinner */
   </style>
 @endsection
 
@@ -141,73 +201,76 @@
       let cummulativeMessage = '';
       $('.send-btn').on('click', function() {
         let $textfield = $('#text-field');
-        message = $textfield.val();
-        cummulativeMessage += ` ${$textfield.val()}`;
+        if($textfield.val().trim().length > 0) {
+          message = $textfield.val();
+          cummulativeMessage += ` ${$textfield.val()}`;
 
-        appendToChat(true, message);
+          appendToChat(true, message);
 
-        // clear the text area
-        $textfield.val('');
+          // clear the text area
+          $textfield.val('');
 
-        if(probeResponses.length > 0) { // have stock messages, print those rather than send to backend
-          appendToChat(false, probeResponses[0].replace('_', ' '));
-          probeResponses.splice(0, 1);
-        }
-        else {
-          console.log(cummulativeMessage);
-          // send to backend
-          sendMessage(cummulativeMessage).then(response => {
-            console.log(response);
-            // clear the message that has been sent
-            cummulativeMessage = '';
+          if(probeResponses.length > 0) { // have stock messages, print those rather than send to backend
+            appendToChat(false, probeResponses[0].replace('_', ' '));
+            probeResponses.splice(0, 1);
+          }
+          else {
+            // send to backend
+            showSpinner();
+            sendMessage(cummulativeMessage).then(response => {
+              hideSpinner();
 
-            if(response['todo'] === 'post') {
-              initProbing(response['messages']);
+              // clear the message that has been sent
+              cummulativeMessage = '';
 
-              // append the response message
-              appendToChat(false, probeResponses[0].replace('_', ' '));
-              probeResponses.splice(0, 1);
-            }
-            else if(response['todo'] === 'entityAnalysis') {
-              waitForReplies = false;
+              if(response['todo'] === 'post') {
+                initProbing(response['messages']);
 
-              // query google NLP entity analysis
-              entityAnalysis(response['original']).then(response => {
-                console.log(response);
-                // send results to backend for parsing
-                parseEntities(response).then(response => {
-                  console.log(response);
-                  if(response['todo'] === 'new_prompt') {
-                    appendToChat(false, response['message']);
-                  }
-                  else if(response['todo'] === 'post') {
-                    initProbing(response['messages']);
+                // append the response message
+                appendToChat(false, probeResponses[0].replace('_', ' '));
+                probeResponses.splice(0, 1);
+              }
+              else if(response['todo'] === 'entityAnalysis') {
+                waitForReplies = false;
 
-                    // append the response message
-                    appendToChat(false, probeResponses[0].replace('_', ' '));
-                    probeResponses.splice(0, 1);
-                  }
-                  else if(response['todo'] === 'clickables') {
-                    waitForReplies = false;
+                // query google NLP entity analysis
+                showSpinner();
+                entityAnalysis(response['original']).then(response => {
+                  // send results to backend for parsing
+                  parseEntities(response).then(response => {
+                    hideSpinner();
+                    if(response['todo'] === 'new_prompt') {
+                      appendToChat(false, response['message']);
+                    }
+                    else if(response['todo'] === 'post') {
+                      initProbing(response['messages']);
 
-                    // create spans of clickable items
-                    let spans = [];
-                    response.entities.forEach(function(entity) {
-                      let span = document.createElement('span');
-                      span.classList.add('clickable-text');
-                      span.innerText = entity.name;
-                      let dataAttr = document.createAttribute('data-type');
-                      dataAttr.value = entity.type;
-                      span.setAttributeNode(dataAttr);
-                      spans.push(span);
-                    });
+                      // append the response message
+                      appendToChat(false, probeResponses[0].replace('_', ' '));
+                      probeResponses.splice(0, 1);
+                    }
+                    else if(response['todo'] === 'clickables') {
+                      waitForReplies = false;
 
-                    appendToChat(false, response['message'], spans);
-                  }
+                      // create spans of clickable items
+                      let spans = [];
+                      response.entities.forEach(function(entity) {
+                        let span = document.createElement('span');
+                        span.classList.add('clickable-text');
+                        span.innerText = entity.name;
+                        let dataAttr = document.createAttribute('data-type');
+                        dataAttr.value = entity.type;
+                        span.setAttributeNode(dataAttr);
+                        spans.push(span);
+                      });
+
+                      appendToChat(false, response['message'], spans);
+                    }
+                  });
                 });
-              });
-            }
-          });
+              }
+            });
+          }
         }
       });
 
@@ -280,6 +343,17 @@
       function initProbing(responses) {
         waitForReplies = true;
         probeResponses = responses;
+      }
+
+      function showSpinner() {
+        let spinner = document.createElement('div');
+        spinner.classList.add('loader');
+        spinner.id = 'spinner';
+        document.querySelector('#chat-window').appendChild(spinner);
+      }
+
+      function hideSpinner() {
+        document.querySelector('#chat-window').removeChild(document.getElementById('spinner'));
       }
     });
   </script>

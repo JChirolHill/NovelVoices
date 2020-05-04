@@ -42,7 +42,7 @@ class ProbeController extends Controller
         $response['todo'] = 'post';
         $response['messages'] = [
           "What's so important about {$characterMatches[0]}?",
-          "Why else could {$characterMatches[0]} be important in overall the story?",
+          "Why else could {$characterMatches[0]} be important overall in the story?",
           "Give one more reason {$characterMatches[0]} matters for your story."
         ];
       }

@@ -15,7 +15,7 @@
   <body>
     {{-- Navbar --}}
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary-dark">
-      <a class="navbar-brand title-text" href="/">Novel Voices</a>
+      <a class="navbar-brand title-text" href="/home">Novel Voices</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>

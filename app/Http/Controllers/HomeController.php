@@ -11,7 +11,8 @@ class HomeController extends Controller
 {
     public function index() {
       // get all stories
-      $stories = Story::with('theme')->where('user_id', '=', Auth::id())->get();
+      $stories = Story::with('theme')->where('user_id', '=', Auth::id())->orderBy('updated_at', 'desc')->get();
+      // dd($stories);
 
       // get all characters
       $characters = Character::where('user_id', '=', Auth::id())->get();

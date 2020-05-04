@@ -1,6 +1,6 @@
 @extends('layouts.full')
 
-@section('title', 'Novel Voices | View Story')
+@section('title', "Novel Voices | $story->title")
 @section('header', $story->title)
 
 @section('styles')
